@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>VRP Pilot Window</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 40, 40, 0.12), transparent 35%),
+        radial-gradient(circle at 20% 80%, rgba(0, 180, 255, 0.10), transparent 30%),
+        linear-gradient(135deg, #050506 0%, #101116 55%, #050506 100%);
+      color: #f2f2f2;
+      font-family: "Courier New", monospace;
+      overflow-x: hidden;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      border: 1px solid #303641;
+      background: rgba(10, 11, 14, 0.94);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.75);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .label {
+      color: #8d94a1;
+      letter-spacing: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 7vw, 70px);
+      letter-spacing: 4px;
+    }
+
+    .deadline {
+      margin-top: 14px;
+      color: #ff4747;
+      font-size: clamp(15px, 3vw, 23px);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .timer {
+      margin: 34px auto 0;
+      max-width: 920px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .unit {
+      border: 1px solid #2a2f38;
+      background: #090a0c;
+      padding: 20px 10px;
+    }
+
+    .num {
+      display: block;
+      color: #ff3f3f;
+      font-size: clamp(30px, 7vw, 72px);
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .word {
+      display: block;
+      margin-top: 10px;
+      color: #8f96a3;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .notice {
+      margin-top: 28px;
+      color: #d8d8d8;
+      font-size: clamp(14px, 2vw, 18px);
+      line-height: 1.7;
+    }
+
+    .status {
+      margin-top: 22px;
+      color: #777e8b;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .closed {
+      color: #ff3f3f;
+      font-size: clamp(28px, 6vw, 54px);
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-top: 40px;
+      display: none;
+    }
+
+    .lab {
+      display: grid;
+      grid-template-columns: 340px 1fr 360px;
+      gap: 18px;
+      min-height: 560px;
+    }
+
+    .panel {
+      border: 1px solid #303641;
+      background: rgba(10, 11, 14, 0.92);
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.55);
+      padding: 18px;
+    }
+
+    .panel-title {
+      color: #c8ccd4;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 14px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .buttons {
+      display: grid;
+      gap: 10px;
+    }
+
+    button {
+      width: 100%;
+      border: 1px solid #3b414c;
+      background: #11141a;
+      color: #f1f1f1;
+      font-family: "Courier New", monospace;
+      padding: 13px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.18s ease;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      border-color: #ff4747;
+      color: #ffdddd;
+      transform: translateY(-1px);
+    }
+
+    button.active {
+      border-color: #ff4747;
+      background: rgba(255, 40, 40, 0.14);
+      color: #ffffff;
+    }
+
+    .hint {
+      margin-top: 18px;
+      color: #7b8390;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .core-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      min-height: 560px;
+      display: block;
+      background:
+        radial-gradient(circle at center, rgba(0, 255, 200, 0.06), transparent 38%),
+        linear-gradient(180deg, rgba(8, 10, 13, 0.95), rgba(3, 4, 6, 0.95));
+    }
+
+    .overlay {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      right: 18px;
+      border: 1px solid #2d333d;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 14px;
+      color: #cbd1da;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .verdicts {
+      display: grid;
+      gap: 10px;
+    }
+
+    .verdict {
+      border: 1px solid #2d333d;
+      background: #08090b;
+      padding: 12px;
+    }
+
+    .v-key {
+      color: #777e8b;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .v-value {
+      margin-top: 5px;
+      color: #e9ecef;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .green {
+      color: #36ff9a;
+    }
+
+    .red {
+      color: #ff4545;
+    }
+
+    .blue {
+      color: #48b8ff;
+    }
+
+    .log {
+      margin-top: 14px;
+      height: 230px;
+      overflow: hidden;
+      border: 1px solid #252a32;
+      background: #050607;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.55;
+      color: #9da6b3;
+    }
+
+    .log-line {
+      white-space: nowrap;
+    }
+
+    .docs {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .docs a {
+      color: #9ecbff;
+      text-decoration: none;
+    }
+
+    .docs a:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 1050px) {
+      .lab {
+        grid-template-columns: 1fr;
+      }
+
+      .core-wrap {
+        min-height: 520px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 14px;
+      }
+
+      .timer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        padding: 22px 14px;
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      canvas {
+        min-height: 480px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="label">VRP / Veil Routing Protocol</div>
+
+      <h1>PILOT WINDOW</h1>
+
+      <div class="deadline">CLOSES AUGUST 31, 2026 — 00:00 UTC</div>
+
+      <section id="timer" class="timer">
+        <div class="unit">
+          <span id="days" class="num">000</span>
+          <span class="word">Days</span>
+        </div>
+
+        <div class="unit">
+          <span id="hours" class="num">00</span>
+          <span class="word">Hours</span>
+        </div>
+
+        <div class="unit">
+          <span id="minutes" class="num">00</span>
+          <span class="word">Minutes</span>
+        </div>
+
+        <div class="unit">
+          <span id="seconds" class="num">00</span>
+          <span class="word">Seconds</span>
+        </div>
+      </section>
+
+      <div id="closed" class="closed">PUBLIC PILOT INTAKE CLOSED</div>
+
+      <div class="notice">
+        This is not a countdown for VRP.<br />
+        VRP continues either way.<br />
+        This is a countdown for public pilot access.
+      </div>
+
+      <div class="status">
+        Development continues. Validation continues. Availability changes.
+      </div>
+    </section>
+
+    <section class="lab">
+      <aside class="panel">
+        <div class="panel-title">Failure Injection Lab</div>
+
+        <div class="buttons">
+          <button class="active" data-scenario="normal">NORMAL RUNTIME</button>
+          <button data-scenario="network-loss">NETWORK LOSS</button>
+          <button data-scenario="path-migration">PATH MIGRATION</button>
+          <button data-scenario="replay">REPLAY ATTEMPT</button>
+          <button data-scenario="authority-race">AUTHORITY RACE</button>
+          <button data-scenario="blackout">BLACKOUT RECOVERY</button>
+        </div>
+
+        <div class="hint">
+          Public visualization only. This page shows observable behavior,
+          not Protected Core implementation.
+        </div>
+
+        <div class="docs">
+          <a href="./docs/PROTECTED_CORE_BOUNDARY.md">Protected Core Boundary</a>
+          <a href="./docs/WHY_PUBLIC_EVIDENCE_EXISTS.md">Why Public Evidence Exists</a>
+          <a href="./docs/WHAT_HAPPENS_AFTER_AUGUST_31.md">What Happens After August 31</a>
+        </div>
+      </aside>
+
+      <main class="panel core-wrap">
+        <canvas id="vrpCanvas"></canvas>
+
+        <div class="overlay">
+          <strong>Observable model:</strong>
+          session identity remains canonical while transports, authority conditions,
+          and failure states change around it.
+        </div>
+      </main>
+
+      <aside class="panel">
+        <div class="panel-title">Runtime Verdict</div>
+
+        <div class="verdicts">
+          <div class="verdict">
+            <div class="v-key">Session</div>
+            <div id="sessionVerdict" class="v-value green">SESSION_IDENTITY_PRESERVED</div>
+          </div>
+
+          <div class="verdict">
+            <div class="v-key">Transport</div>
+            <div id="transportVerdict" class="v-value blue">TRANSPORT_ATTACHED</div>
+          </div>
+
+          <div class="verdict">
+            <div class="v-key">Authority</div>
+            <div id="authorityVerdict" class="v-value green">AUTHORITY_STABLE</div>
+          </div>
+
+          <div class="verdict">
+            <div class="v-key">Attack / Fault</div>
+            <div id="faultVerdict" class="v-value">NO_FAULT_ACTIVE</div>
+          </div>
+
+          <div class="verdict">
+            <div class="v-key">Final</div>
+            <div id="finalVerdict" class="v-value green">CONTINUITY_PRESERVED</div>
+          </div>
+        </div>
+
+        <div id="log" class="log"></div>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    const deadline = new Date("2026-08-31T00:00:00Z").getTime();
+
+    function pad(value, size) {
+      return String(value).padStart(size, "0");
+    }
+
+    function updateTimer() {
+      const now = Date.now();
+      const diff = deadline - now;
+
+      if (diff <= 0) {
+        document.getElementById("timer").style.display = "none";
+        document.getElementById("closed").style.display = "block";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = pad(days, 3);
+      document.getElementById("hours").textContent = pad(hours, 2);
+      document.getElementById("minutes").textContent = pad(minutes, 2);
+      document.getElementById("seconds").textContent = pad(seconds, 2);
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    const canvas = document.getElementById("vrpCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let scenario = "normal";
+    let tick = 0;
+    let logLines = [];
+
+    const scenarioText = {
+      "normal": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "TRANSPORT_ATTACHED",
+        authority: "AUTHORITY_STABLE",
+        fault: "NO_FAULT_ACTIVE",
+        final: "CONTINUITY_PRESERVED",
+        color: "#36ff9a"
+      },
+      "network-loss": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "TRANSPORT_LOSS_CONTAINED",
+        authority: "AUTHORITY_UNCHANGED",
+        fault: "NETWORK_PATH_FAILED",
+        final: "CONTINUITY_PRESERVED",
+        color: "#ffb347"
+      },
+      "path-migration": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "TRANSPORT_REPLACED",
+        authority: "AUTHORITY_PRESERVED",
+        fault: "PATH_CHANGED",
+        final: "MIGRATION_PRESERVED",
+        color: "#48b8ff"
+      },
+      "replay": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "TRANSPORT_OBSERVED",
+        authority: "AUTHORITY_UNCHANGED",
+        fault: "REPLAY_ATTEMPT_REJECTED",
+        final: "REPLAY_CONTAINED",
+        color: "#ff4545"
+      },
+      "authority-race": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "MULTIPATH_OBSERVED",
+        authority: "CANONICAL_AUTHORITY_SELECTED",
+        fault: "STALE_AUTHORITY_REJECTED",
+        final: "AUTHORITY_CONVERGED",
+        color: "#b06cff"
+      },
+      "blackout": {
+        session: "SESSION_IDENTITY_PRESERVED",
+        transport: "BLACKOUT_RECOVERED",
+        authority: "AUTHORITY_REJOINED",
+        fault: "TOTAL_PATH_LOSS",
+        final: "RECOVERY_PRESERVED",
+        color: "#ff7b45"
+      }
+    };
+
+    const nodes = [
+      { key: "session", label: "SESSION", angle: 0, radius: 0, size: 62 },
+      { key: "transport", label: "TRANSPORT", angle: 0.2, radius: 145, size: 42 },
+      { key: "authority", label: "AUTHORITY", angle: 1.45, radius: 145, size: 42 },
+      { key: "recovery", label: "RECOVERY", angle: 2.65, radius: 145, size: 42 },
+      { key: "replay", label: "REPLAY", angle: 3.9, radius: 145, size: 42 },
+      { key: "evidence", label: "EVIDENCE", angle: 5.1, radius: 145, size: 42 }
+    ];
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function addLog(text) {
+      const stamp = new Date().toISOString().split("T")[1].replace("Z", "");
+      logLines.unshift("[" + stamp + "] " + text);
+      logLines = logLines.slice(0, 12);
+
+      const log = document.getElementById("log");
+      log.innerHTML = logLines.map(line => "<div class='log-line'>" + line + "</div>").join("");
+    }
+
+    function setScenario(next) {
+      scenario = next;
+      const s = scenarioText[scenario];
+
+      document.getElementById("sessionVerdict").textContent = s.session;
+      document.getElementById("transportVerdict").textContent = s.transport;
+      document.getElementById("authorityVerdict").textContent = s.authority;
+      document.getElementById("faultVerdict").textContent = s.fault;
+      document.getElementById("finalVerdict").textContent = s.final;
+
+      addLog("scenario=" + scenario);
+      addLog("fault=" + s.fault);
+      addLog("verdict=" + s.final);
+
+      document.querySelectorAll("button[data-scenario]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.scenario === scenario);
+      });
+    }
+
+    document.querySelectorAll("button[data-scenario]").forEach(btn => {
+      btn.addEventListener("click", () => setScenario(btn.dataset.scenario));
+    });
+
+    function nodePosition(node, centerX, centerY, t) {
+      if (node.key === "session") {
+        return { x: centerX, y: centerY };
+      }
+
+      const spin = t * 0.00022;
+      const angle = node.angle + spin;
+      const radius = Math.min(node.radius, Math.min(centerX, centerY) - 75);
+
+      return {
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius
+      };
+    }
+
+    function drawNode(x, y, size, label, color, locked) {
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(8, 10, 13, 0.95)";
+      ctx.fill();
+
+      ctx.lineWidth = locked ? 3 : 2;
+      ctx.strokeStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = locked ? 26 : 14;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = "#f2f2f2";
+      ctx.font = size > 50 ? "bold 15px Courier New" : "bold 11px Courier New";
+      ctx.textAlign = "center";
+      ctx.fillText(label, x, y + 4);
+
+      if (locked) {
+        ctx.fillStyle = color;
+        ctx.font = "bold 22px Courier New";
+        ctx.fillText("LOCK", x, y + size + 30);
+      }
+    }
+
+    function drawPacket(from, to, progress, color, rejected) {
+      const x = from.x + (to.x - from.x) * progress;
+      const y = from.y + (to.y - from.y) * progress;
+
+      ctx.beginPath();
+      ctx.arc(x, y, rejected ? 5 : 4, 0, Math.PI * 2);
+      ctx.fillStyle = rejected ? "#ff4545" : color;
+      ctx.shadowColor = rejected ? "#ff4545" : color;
+      ctx.shadowBlur = 18;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function drawAttackBurst(centerX, centerY, t) {
+      if (scenario !== "replay" && scenario !== "authority-race") return;
+
+      const color = scenario === "replay" ? "#ff4545" : "#b06cff";
+
+      for (let i = 0; i < 18; i++) {
+        const a = i * 0.7 + t * 0.003;
+        const r = 240 + Math.sin(t * 0.004 + i) * 18;
+        const x = centerX + Math.cos(a) * r;
+        const y = centerY + Math.sin(a) * r;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(centerX + Math.cos(a) * 86, centerY + Math.sin(a) * 86);
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = 0.25;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function drawBlackout(centerX, centerY, t) {
+      if (scenario !== "blackout" && scenario !== "network-loss") return;
+
+      ctx.save();
+      ctx.globalAlpha = scenario === "blackout" ? 0.22 : 0.12;
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      ctx.restore();
+
+      const pulse = 70 + Math.sin(t * 0.006) * 20;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, pulse, 0, Math.PI * 2);
+      ctx.strokeStyle = "#ff7b45";
+      ctx.lineWidth = 2;
+      ctx.shadowColor = "#ff7b45";
+      ctx.shadowBlur = 18;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    function draw(t) {
+      tick++;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      const centerX = w / 2;
+      const centerY = h / 2 - 10;
+      const s = scenarioText[scenario];
+
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < 90; i++) {
+        const x = (Math.sin(i * 91.17 + t * 0.0002) * 0.5 + 0.5) * w;
+        const y = (Math.cos(i * 47.11 + t * 0.0003) * 0.5 + 0.5) * h;
+        ctx.fillStyle = i % 7 === 0 ? "rgba(255, 70, 70, 0.45)" : "rgba(120, 180, 255, 0.18)";
+        ctx.fillRect(x, y, 1.4, 1.4);
+      }
+
+      const positions = {};
+      nodes.forEach(node => {
+        positions[node.key] = nodePosition(node, centerX, centerY, t);
+      });
+
+      drawAttackBurst(centerX, centerY, t);
+      drawBlackout(centerX, centerY, t);
+
+      nodes.filter(n => n.key !== "session").forEach(node => {
+        const p = positions[node.key];
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(p.x, p.y);
+
+        let alpha = 0.36;
+
+        if (scenario === "network-loss" && node.key === "transport") alpha = 0.08;
+        if (scenario === "blackout" && node.key !== "recovery") alpha = 0.09;
+        if (scenario === "replay" && node.key === "replay") alpha = 0.75;
+        if (scenario === "authority-race" && node.key === "authority") alpha = 0.75;
+        if (scenario === "path-migration" && node.key === "transport") alpha = 0.75;
+
+        ctx.strokeStyle = s.color;
+        ctx.globalAlpha = alpha;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      });
+
+      const orbit = Math.min(170, Math.min(centerX, centerY) - 50);
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, orbit, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      const p = ((t * 0.00045) % 1);
+      nodes.filter(n => n.key !== "session").forEach((node, idx) => {
+        const from = positions[node.key];
+        const to = positions.session;
+        const rejected = scenario === "replay" && node.key === "replay";
+        drawPacket(from, to, (p + idx * 0.17) % 1, s.color, rejected);
+      });
+
+      nodes.forEach(node => {
+        const p = positions[node.key];
+
+        let color = s.color;
+        let locked = node.key === "session";
+
+        if (scenario === "replay" && node.key === "replay") color = "#ff4545";
+        if (scenario === "authority-race" && node.key === "authority") color = "#b06cff";
+        if (scenario === "blackout" && node.key === "recovery") color = "#ff7b45";
+        if (scenario === "path-migration" && node.key === "transport") color = "#48b8ff";
+
+        drawNode(p.x, p.y, node.size, node.label, color, locked);
+      });
+
+      ctx.fillStyle = "rgba(255,255,255,0.78)";
+      ctx.font = "12px Courier New";
+      ctx.textAlign = "center";
+      ctx.fillText("PUBLIC VISUALIZATION / PROTECTED CORE NOT DISCLOSED", centerX, 32);
+
+      requestAnimationFrame(draw);
+    }
+
+    setScenario("normal");
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>
