@@ -28,6 +28,23 @@ Availability changes.
 
 ---
 
+Interactive Runtime Visualization
+
+https://endless33.github.io/vrp-countdown/network-impact-demo.html
+
+Public visualization of observable behavior under:
+
+- Network Failure
+- Path Migration
+- Replay Attack
+- Blackout Recovery
+
+The visualization demonstrates observable outcomes and continuity-focused behavior.
+
+It does not disclose Protected Core implementation.
+
+---
+
 Pilot Applications
 
 Public Pilot Application
@@ -109,22 +126,6 @@ The objective is verification without disclosure of protected implementation det
 
 ---
 
-Interactive Runtime Visualization
-
-The live site includes:
-
-- Pilot countdown
-- Runtime visualization
-- Failure injection scenarios
-- Recovery demonstrations
-- Public evidence references
-
-The purpose is to visualize observable behavior.
-
-Not to disclose Protected Core implementation.
-
----
-
 Current Pilot Window
 
 The current public pilot intake remains open until:
@@ -144,13 +145,15 @@ No future public intake window is guaranteed.
 
 Contact
 
+Email
+
 riabovasvitalijus@gmail.com
 
-Public Telegram:
+Public Telegram
 
 https://t.me/JumpingVPN
 
-VRP Pilot Network:
+VRP Pilot Network
 
 https://t.me/+GUDDNV6nYvlmNjQ8
 
