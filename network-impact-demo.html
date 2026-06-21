@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>VRP Network Impact Demo</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 60, 60, 0.14), transparent 34%),
+        linear-gradient(135deg, #050506, #101216 60%, #050506);
+      color: #f1f1f1;
+      font-family: "Courier New", monospace;
+      padding: 24px;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      border: 1px solid #303641;
+      background: rgba(10, 11, 14, 0.94);
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(0,0,0,0.75);
+    }
+
+    .tag {
+      color: #8f96a3;
+      letter-spacing: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 8px;
+      font-size: clamp(30px, 6vw, 64px);
+      letter-spacing: 3px;
+    }
+
+    .sub {
+      color: #d4d7dd;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid #303641;
+      background: rgba(10, 11, 14, 0.92);
+      padding: 18px;
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title {
+      color: #cfd4dc;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 14px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .network {
+      position: relative;
+      height: 300px;
+      border: 1px solid #222832;
+      background:
+        radial-gradient(circle at center, rgba(120,180,255,0.08), transparent 38%),
+        #06070a;
+      overflow: hidden;
+    }
+
+    .node {
+      position: absolute;
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      border: 2px solid #5f6876;
+      background: #0d1015;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      font-weight: bold;
+      color: #e8ebef;
+      box-shadow: 0 0 20px rgba(120,180,255,0.18);
+      z-index: 2;
+    }
+
+    .client { left: 8%; top: 36%; }
+    .transport { left: 39%; top: 12%; }
+    .server { right: 8%; top: 36%; }
+    .session { left: 39%; bottom: 9%; border-color: #36ff9a; box-shadow: 0 0 28px rgba(54,255,154,0.35); }
+
+    .line {
+      position: absolute;
+      height: 2px;
+      background: #39414d;
+      transform-origin: left center;
+      z-index: 1;
+    }
+
+    .line.good {
+      background: #36ff9a;
+      box-shadow: 0 0 14px rgba(54,255,154,0.55);
+    }
+
+    .line.bad {
+      background: #ff4545;
+      box-shadow: 0 0 14px rgba(255,69,69,0.55);
+      animation: flicker 0.3s infinite;
+    }
+
+    .packet {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background: #48b8ff;
+      border-radius: 50%;
+      box-shadow: 0 0 18px #48b8ff;
+      z-index: 3;
+      animation: move 2.2s linear infinite;
+    }
+
+    .attack {
+      background: #ff4545;
+      box-shadow: 0 0 18px #ff4545;
+      animation: attackMove 1.1s linear infinite;
+    }
+
+    @keyframes move {
+      0% { left: 14%; top: 48%; opacity: 0; }
+      15% { opacity: 1; }
+      50% { left: 48%; top: 25%; }
+      100% { left: 82%; top: 48%; opacity: 0; }
+    }
+
+    @keyframes attackMove {
+      0% { left: 5%; top: 10%; opacity: 0; }
+      20% { opacity: 1; }
+      100% { left: 44%; top: 71%; opacity: 0; }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 1; }
+    }
+
+    .verdict {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      border: 1px solid #252b34;
+      background: #07080a;
+      padding: 11px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .key {
+      color: #818996;
+    }
+
+    .ok {
+      color: #36ff9a;
+      font-weight: bold;
+    }
+
+    .fail {
+      color: #ff4545;
+      font-weight: bold;
+    }
+
+    .warn {
+      color: #ffb347;
+      font-weight: bold;
+    }
+
+    .controls {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      border: 1px solid #3b414c;
+      background: #11141a;
+      color: #f1f1f1;
+      font-family: "Courier New", monospace;
+      padding: 13px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    button:hover,
+    button.active {
+      border-color: #ff4747;
+      background: rgba(255, 40, 40, 0.14);
+    }
+
+    .explain {
+      margin-top: 22px;
+      border: 1px solid #303641;
+      background: rgba(10, 11, 14, 0.92);
+      padding: 18px;
+      line-height: 1.7;
+      color: #d8dbe0;
+    }
+
+    .footer {
+      margin-top: 22px;
+      color: #777e8b;
+      font-size: 12px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="tag">VRP / Network Impact Demo</div>
+      <h1>WHAT CHANGES WITH VRP?</h1>
+      <div class="sub">
+        A public visualization of observable behavior under network disruption.<br />
+        It does not disclose Protected Core implementation.
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="title">Without Continuity-First Runtime</div>
+
+        <div class="network" id="legacyNetwork">
+          <div class="node client">CLIENT</div>
+          <div class="node transport">TRANSPORT</div>
+          <div class="node server">SERVER</div>
+
+          <div class="line bad" style="left: 18%; top: 49%; width: 38%; transform: rotate(-24deg);"></div>
+          <div class="line bad" style="left: 50%; top: 26%; width: 36%; transform: rotate(24deg);"></div>
+
+          <div class="packet attack"></div>
+          <div class="packet attack" style="animation-delay: .25s;"></div>
+          <div class="packet attack" style="animation-delay: .55s;"></div>
+        </div>
+
+        <div class="verdict">
+          <div class="row"><span class="key">Transport failure</span><span class="fail">SESSION IMPACT</span></div>
+          <div class="row"><span class="key">Reconnect</span><span class="warn">STATE REBUILD</span></div>
+          <div class="row"><span class="key">Replay attempt</span><span class="warn">APPLICATION RISK</span></div>
+          <div class="row"><span class="key">Execution continuity</span><span class="fail">NOT GUARANTEED</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="title">With VRP Continuity Model</div>
+
+        <div class="network" id="vrpNetwork">
+          <div class="node client">CLIENT</div>
+          <div class="node transport">REPLACEABLE<br />TRANSPORT</div>
+          <div class="node server">SERVER</div>
+          <div class="node session">SESSION<br />IDENTITY</div>
+
+          <div class="line good" style="left: 18%; top: 49%; width: 38%; transform: rotate(-24deg);"></div>
+          <div class="line good" style="left: 50%; top: 26%; width: 36%; transform: rotate(24deg);"></div>
+          <div class="line good" style="left: 50%; top: 38%; width: 24%; transform: rotate(90deg);"></div>
+
+          <div class="packet"></div>
+          <div class="packet" style="animation-delay: .45s;"></div>
+          <div class="packet" style="animation-delay: .9s;"></div>
+        </div>
+
+        <div class="verdict">
+          <div class="row"><span class="key">Transport failure</span><span class="ok" id="v1">CONTAINED</span></div>
+          <div class="row"><span class="key">Session identity</span><span class="ok" id="v2">PRESERVED</span></div>
+          <div class="row"><span class="key">Replay attempt</span><span class="ok" id="v3">REJECTED</span></div>
+          <div class="row"><span class="key">Execution continuity</span><span class="ok" id="v4">PRESERVED</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button class="active" onclick="setMode('network')">NETWORK FAILURE</button>
+      <button onclick="setMode('migration')">PATH MIGRATION</button>
+      <button onclick="setMode('replay')">REPLAY ATTACK</button>
+      <button onclick="setMode('blackout')">BLACKOUT</button>
+    </section>
+
+    <section class="explain" id="explain">
+      In a traditional model, transport failure can become session failure.
+      In the VRP model, session identity remains canonical while transport is treated as replaceable.
+    </section>
+
+    <div class="footer">
+      Public visualization only. Protected Core not disclosed.
+    </div>
+  </div>
+
+  <script>
+    const text = {
+      network: {
+        v1: "CONTAINED",
+        v2: "PRESERVED",
+        v3: "NO EFFECT",
+        v4: "PRESERVED",
+        explain: "Network failure changes the transport condition. The observable VRP model keeps session identity stable while the failed path is treated as replaceable."
+      },
+      migration: {
+        v1: "PATH CHANGED",
+        v2: "PRESERVED",
+        v3: "NO EFFECT",
+        v4: "MIGRATION PRESERVED",
+        explain: "Path migration changes where packets travel. It should not force the logical session to restart or rebuild its execution identity."
+      },
+      replay: {
+        v1: "UNCHANGED",
+        v2: "PRESERVED",
+        v3: "REJECTED",
+        v4: "PRESERVED",
+        explain: "Replay attempts are represented as hostile duplicate traffic. The public model shows the expected outcome: rejection without exposing Protected Core logic."
+      },
+      blackout: {
+        v1: "RECOVERED",
+        v2: "PRESERVED",
+        v3: "NO EFFECT",
+        v4: "RECOVERY PRESERVED",
+        explain: "Blackout recovery demonstrates the difference between temporary transport disappearance and logical execution death. VRP focuses on preserving continuity across disruption."
+      }
+    };
+
+    function setMode(mode) {
+      document.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+
+      document.getElementById("v1").textContent = text[mode].v1;
+      document.getElementById("v2").textContent = text[mode].v2;
+      document.getElementById("v3").textContent = text[mode].v3;
+      document.getElementById("v4").textContent = text[mode].v4;
+      document.getElementById("explain").textContent = text[mode].explain;
+    }
+  </script>
+</body>
+</html>
