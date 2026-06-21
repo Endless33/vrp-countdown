@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>VRP Pilot Window</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at center, rgba(120, 0, 0, 0.18), transparent 35%),
+        linear-gradient(135deg, #050506 0%, #111217 55%, #050506 100%);
+      color: #f2f2f2;
+      font-family: "Courier New", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 920px;
+      border: 1px solid #333842;
+      background: rgba(12, 13, 16, 0.94);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+      padding: 42px 28px;
+      text-align: center;
+    }
+
+    .label {
+      color: #8c929f;
+      letter-spacing: 4px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 7vw, 72px);
+      letter-spacing: 4px;
+      color: #ffffff;
+    }
+
+    .deadline {
+      margin-top: 14px;
+      color: #ff4a4a;
+      font-size: clamp(16px, 3vw, 24px);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .timer {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .unit {
+      border: 1px solid #2a2f38;
+      background: #090a0c;
+      padding: 22px 10px;
+    }
+
+    .num {
+      display: block;
+      color: #ff3f3f;
+      font-size: clamp(32px, 7vw, 76px);
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .word {
+      display: block;
+      margin-top: 10px;
+      color: #8f96a3;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .notice {
+      margin-top: 36px;
+      color: #d7d7d7;
+      font-size: clamp(14px, 2vw, 18px);
+      line-height: 1.7;
+    }
+
+    .status {
+      margin-top: 28px;
+      color: #777e8b;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .closed {
+      color: #ff3f3f;
+      font-size: clamp(28px, 6vw, 54px);
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .timer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .panel {
+        padding: 32px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="panel">
+    <div class="label">VRP / Veil Routing Protocol</div>
+
+    <h1>PILOT WINDOW</h1>
+
+    <div class="deadline">CLOSES AUGUST 31, 2026 — 00:00 UTC</div>
+
+    <section id="timer" class="timer">
+      <div class="unit">
+        <span id="days" class="num">000</span>
+        <span class="word">Days</span>
+      </div>
+
+      <div class="unit">
+        <span id="hours" class="num">00</span>
+        <span class="word">Hours</span>
+      </div>
+
+      <div class="unit">
+        <span id="minutes" class="num">00</span>
+        <span class="word">Minutes</span>
+      </div>
+
+      <div class="unit">
+        <span id="seconds" class="num">00</span>
+        <span class="word">Seconds</span>
+      </div>
+    </section>
+
+    <div id="closed" class="closed" style="display: none;">
+      PUBLIC PILOT INTAKE CLOSED
+    </div>
+
+    <div class="notice">
+      This is not a countdown for VRP.<br />
+      VRP continues either way.<br />
+      This is a countdown for public pilot access.
+    </div>
+
+    <div class="status">
+      Development continues. Validation continues. Availability changes.
+    </div>
+  </main>
+
+  <script>
+    const deadline = new Date("2026-08-31T00:00:00Z").getTime();
+
+    function pad(value, size) {
+      return String(value).padStart(size, "0");
+    }
+
+    function updateTimer() {
+      const now = Date.now();
+      const diff = deadline - now;
+
+      if (diff <= 0) {
+        document.getElementById("timer").style.display = "none";
+        document.getElementById("closed").style.display = "block";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = pad(days, 3);
+      document.getElementById("hours").textContent = pad(hours, 2);
+      document.getElementById("minutes").textContent = pad(minutes, 2);
+      document.getElementById("seconds").textContent = pad(seconds, 2);
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
