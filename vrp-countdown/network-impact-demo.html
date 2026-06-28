@@ -54,6 +54,59 @@
       font-size: 15px;
     }
 
+    .deadline {
+      margin-top: 26px;
+      border: 1px solid #ff4545;
+      background: rgba(80, 0, 0, 0.18);
+      padding: 22px;
+    }
+
+    .deadline-title {
+      color: #ff4545;
+      font-weight: bold;
+      letter-spacing: 3px;
+      font-size: 15px;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    .countdown {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .countdown div {
+      border: 1px solid #303641;
+      background: #050506;
+      padding: 18px;
+    }
+
+    .countdown strong {
+      display: block;
+      color: #ff4545;
+      font-size: clamp(28px, 6vw, 44px);
+      letter-spacing: 3px;
+    }
+
+    .countdown span {
+      color: #8f96a3;
+      font-size: 11px;
+      letter-spacing: 3px;
+    }
+
+    .deadline-note {
+      margin-top: 18px;
+      color: #d4d7dd;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .deadline-note strong {
+      color: #ff4545;
+    }
+
     .grid {
       margin-top: 22px;
       display: grid;
@@ -250,6 +303,10 @@
       .controls {
         grid-template-columns: 1fr 1fr;
       }
+
+      .countdown {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -260,8 +317,40 @@
       <div class="tag">VRP / Network Impact Demo</div>
       <h1>WHAT CHANGES WITH VRP?</h1>
       <div class="sub">
-        A public visualization of observable behavior under network disruption.<br />
-        It does not disclose Protected Core implementation.
+        Pilot access window has been reduced by one month.<br />
+        Current public intake closes July 31, 2026. Protected Core remains protected.
+      </div>
+
+      <div class="deadline">
+        <div class="deadline-title">
+          Pilot window closes July 31, 2026 — 00:00 UTC
+        </div>
+
+        <div class="countdown">
+          <div>
+            <strong id="days">000</strong>
+            <span>DAYS</span>
+          </div>
+          <div>
+            <strong id="hours">00</strong>
+            <span>HOURS</span>
+          </div>
+          <div>
+            <strong id="minutes">00</strong>
+            <span>MINUTES</span>
+          </div>
+          <div>
+            <strong id="seconds">00</strong>
+            <span>SECONDS</span>
+          </div>
+        </div>
+
+        <div class="deadline-note">
+          Previous August window is no longer active.<br />
+          Enterprise pilot access is currently <strong>€100,000</strong> until July 31, 2026.<br />
+          After July 31, enterprise pilot pricing may increase to <strong>€5,000,000</strong> per pilot.<br />
+          Pilot access may close for six months or longer. Future availability is not guaranteed.
+        </div>
       </div>
     </section>
 
@@ -318,10 +407,10 @@
     </section>
 
     <section class="controls">
-      <button class="active" onclick="setMode('network')">NETWORK FAILURE</button>
-      <button onclick="setMode('migration')">PATH MIGRATION</button>
-      <button onclick="setMode('replay')">REPLAY ATTACK</button>
-      <button onclick="setMode('blackout')">BLACKOUT</button>
+      <button class="active" onclick="setMode(event, 'network')">NETWORK FAILURE</button>
+      <button onclick="setMode(event, 'migration')">PATH MIGRATION</button>
+      <button onclick="setMode(event, 'replay')">REPLAY ATTACK</button>
+      <button onclick="setMode(event, 'blackout')">BLACKOUT</button>
     </section>
 
     <section class="explain" id="explain">
@@ -366,7 +455,7 @@
       }
     };
 
-    function setMode(mode) {
+    function setMode(event, mode) {
       document.querySelectorAll("button").forEach(b => b.classList.remove("active"));
       event.target.classList.add("active");
 
@@ -376,6 +465,26 @@
       document.getElementById("v4").textContent = text[mode].v4;
       document.getElementById("explain").textContent = text[mode].explain;
     }
+
+    const deadline = new Date("2026-07-31T00:00:00Z").getTime();
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = Math.max(0, deadline - now);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = String(days).padStart(3, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
