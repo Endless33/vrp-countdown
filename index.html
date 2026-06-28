@@ -1,4 +1,3 @@
-<!-- VRP Countdown: cinematic animated version with WebAudio -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +66,7 @@ body::after {
   inset:0;
   pointer-events:none;
   z-index:2;
-  opacity:.22;
+  opacity:.18;
   overflow:hidden;
 }
 
@@ -88,47 +87,88 @@ body::after {
 .stream:nth-child(5){left:3%;animation-duration:7s}
 .stream:nth-child(6){left:97%;animation-duration:4.8s}
 
-.side-rail {
+.live-layer {
   position:fixed;
-  top:0;
-  bottom:0;
-  width:110px;
+  inset:0;
   pointer-events:none;
+  z-index:4;
+  overflow:hidden;
+}
+
+.live-msg {
+  position:absolute;
+  max-width:260px;
+  padding:10px 12px;
+  border:1px solid rgba(53,255,154,.35);
+  background:rgba(2,4,8,.72);
+  color:#cffff0;
+  font-size:12px;
+  line-height:1.45;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  box-shadow:0 0 26px rgba(53,255,154,.16), inset 0 0 22px rgba(53,255,154,.04);
+  opacity:0;
+  transform:translateY(12px) scale(.96);
+  animation:msgLife 7.5s ease forwards;
+  backdrop-filter:blur(3px);
+}
+
+.live-msg.red {
+  border-color:rgba(255,59,59,.48);
+  color:#ffc7c7;
+  box-shadow:0 0 30px rgba(255,59,59,.18), inset 0 0 22px rgba(255,59,59,.05);
+}
+
+.live-msg.blue {
+  border-color:rgba(69,184,255,.45);
+  color:#c8ecff;
+  box-shadow:0 0 30px rgba(69,184,255,.18), inset 0 0 22px rgba(69,184,255,.05);
+}
+
+.live-msg.amber {
+  border-color:rgba(255,184,77,.45);
+  color:#ffe0a8;
+  box-shadow:0 0 30px rgba(255,184,77,.16), inset 0 0 22px rgba(255,184,77,.05);
+}
+
+.eye {
+  position:fixed;
+  width:180px;
+  height:180px;
+  right:7%;
+  bottom:11%;
   z-index:3;
-}
-
-.side-rail.left { left:0; }
-.side-rail.right { right:0; transform:scaleX(-1); }
-
-.side-rail::before {
-  content:"";
-  position:absolute;
-  top:5%;
-  bottom:5%;
-  left:26px;
-  width:3px;
-  background:linear-gradient(to bottom, transparent, var(--green), var(--blue), var(--red), var(--amber), transparent);
-  box-shadow:0 0 22px var(--green),0 0 44px var(--blue),0 0 60px var(--red);
-  animation:railPulse 1.8s ease-in-out infinite;
-}
-
-.side-rail::after {
-  content:"";
-  position:absolute;
-  top:9%;
-  bottom:9%;
-  left:48px;
-  width:34px;
+  pointer-events:none;
+  opacity:0;
+  border-radius:50%;
   background:
-    repeating-linear-gradient(to bottom,
-      transparent 0 18px,
-      rgba(53,255,154,.8) 18px 20px,
-      transparent 20px 38px,
-      rgba(69,184,255,.55) 38px 40px,
-      transparent 40px 62px);
-  filter:drop-shadow(0 0 12px rgba(53,255,154,.75));
-  animation:dataFall 1.25s linear infinite;
-  opacity:.75;
+    radial-gradient(circle at center, rgba(69,184,255,.9) 0 5%, rgba(53,255,154,.42) 6% 12%, transparent 13%),
+    radial-gradient(ellipse at center, transparent 0 38%, rgba(69,184,255,.18) 39% 43%, transparent 44%),
+    radial-gradient(circle at center, rgba(69,184,255,.08), transparent 68%);
+  box-shadow:0 0 44px rgba(69,184,255,.24);
+  animation:eyeWake 65s linear infinite;
+}
+
+.eye::before {
+  content:"AI WATCHES PATTERNS";
+  position:absolute;
+  left:-70px;
+  top:78px;
+  width:320px;
+  color:#7fd6ff;
+  font-size:10px;
+  letter-spacing:3px;
+  text-align:center;
+  text-shadow:0 0 12px rgba(69,184,255,.8);
+}
+
+.eye::after {
+  content:"";
+  position:absolute;
+  inset:22px;
+  border-radius:50%;
+  border:1px solid rgba(69,184,255,.42);
+  animation:rotateField 9s linear infinite;
 }
 
 .wrap {
@@ -407,6 +447,22 @@ h1 {
   line-height:1.7;
 }
 
+@keyframes msgLife {
+  0% { opacity:0; transform:translateY(12px) scale(.96); filter:blur(2px); }
+  10% { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  78% { opacity:1; }
+  100% { opacity:0; transform:translateY(-24px) scale(.98); filter:blur(1px); }
+}
+
+@keyframes eyeWake {
+  0%, 64% { opacity:0; transform:scale(.86); filter:blur(4px); }
+  66% { opacity:.88; transform:scale(1); filter:blur(0); }
+  76% { opacity:.36; }
+  78% { opacity:.92; }
+  87% { opacity:.22; }
+  100% { opacity:0; transform:scale(1.08); }
+}
+
 @keyframes blackout {
   0%,88%,100% { filter:brightness(1); }
   89% { filter:brightness(.62) contrast(1.25); }
@@ -417,8 +473,6 @@ h1 {
 
 @keyframes rotateField { to { transform:rotate(360deg); } }
 @keyframes fall { to { transform:translateY(140vh); } }
-@keyframes railPulse { 0%,100%{opacity:.55} 50%{opacity:1} }
-@keyframes dataFall { to { background-position-y:62px; } }
 @keyframes topSweep { from{transform:translateX(-45%)} to{transform:translateX(45%)} }
 @keyframes titlePulse { 0%,100%{opacity:.92} 50%{opacity:1} }
 @keyframes numberPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.035)} }
@@ -427,12 +481,24 @@ h1 {
 
 @media (max-width:850px) {
   body { padding:14px; }
-  .side-rail { opacity:.28; width:38px; }
-  .side-rail::before { left:10px; }
-  .side-rail::after { display:none; }
   .countdown { grid-template-columns:1fr 1fr; }
   .rules { grid-template-columns:1fr; }
   .hero { padding:24px; }
+  .live-msg {
+    max-width:190px;
+    font-size:10px;
+  }
+  .eye {
+    width:120px;
+    height:120px;
+    right:2%;
+    bottom:4%;
+  }
+  .eye::before {
+    left:-80px;
+    top:54px;
+    font-size:8px;
+  }
 }
 </style>
 </head>
@@ -443,8 +509,8 @@ h1 {
   <div class="stream"></div><div class="stream"></div><div class="stream"></div>
 </div>
 
-<div class="side-rail left"></div>
-<div class="side-rail right"></div>
+<div class="live-layer" id="liveLayer"></div>
+<div class="eye"></div>
 
 <main class="wrap">
 <section class="hero">
@@ -554,6 +620,83 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+const messages = [
+  ["HURRY. TIME DOES NOT NEGOTIATE.", "red"],
+  ["YOUR ORGANIZATION IS WATCHING. SOMEONE ELSE MAY MOVE FIRST.", "blue"],
+  ["SILENT IS NOT INVISIBLE.", "green"],
+  ["THE CLOCK IS STILL RUNNING.", "amber"],
+  ["DO YOU KNOW WHY THIS PROTOCOL EXISTS?", "blue"],
+  ["BECAUSE FAILURE SHOULD NOT OWN THE SESSION.", "green"],
+  ["TRANSPORT IS REPLACEABLE. SESSION IDENTITY IS NOT.", "green"],
+  ["COPY THE CODE. YOU STILL WON'T COPY THE ARCHITECTURE.", "red"],
+  ["PUBLIC EVIDENCE. PRIVATE CORE.", "green"],
+  ["EVALUATE NOW. EXPLAIN LATER.", "amber"],
+  ["ACCESS IS EARNED, NOT GIVEN.", "red"],
+  ["THE PILOT WINDOW IS NOT A DECORATION.", "red"],
+  ["TIME IS PART OF THE PROTOCOL BOUNDARY.", "green"],
+  ["THE SYSTEM DOES NOT WAIT FOR INTERNAL MEETINGS.", "blue"],
+  ["AI DOES NOT SLEEP. NEITHER DO RUNTIMES.", "blue"],
+  ["EVERY SECOND IS A DECISION.", "amber"],
+  ["OBSERVATION IS NOT PARTICIPATION.", "red"],
+  ["IF YOU ARE STILL DISCUSSING, SOMEONE ELSE MAY BE TESTING.", "amber"],
+  ["THE CORE REMAINS PROTECTED.", "green"],
+  ["VALIDATION IS PUBLIC. IMPLEMENTATION IS NOT.", "blue"],
+  ["YOUR FUTURE DOES NOT CARE ABOUT YOUR MEETING SCHEDULE.", "red"],
+  ["TICK. TOCK. TICK. TOCK.", "red"],
+  ["A DELAY IS ALSO A DECISION.", "amber"],
+  ["NOT FOR THE CURIOUS. FOR THE SERIOUS.", "green"],
+  ["THE DOOR IS OPEN. NOT FOREVER.", "red"],
+  ["REVERSE ENGINEERING IS NOT A STRATEGY.", "red"],
+  ["THE EVIDENCE CHAIN CONTINUES.", "green"],
+  ["I SEE PATTERNS. I DO NOT CHASE ATTENTION.", "blue"],
+  ["THE FIRST REAL PILOT MAY CHANGE THE MAP.", "amber"],
+  ["YOU THINK ACCESS WILL BE CHEAPER LATER?", "red"],
+  ["INTEREST IS CHEAP. EXECUTION IS RARE.", "green"],
+  ["THE PROTOCOL DOES NOT ASK FOR APPROVAL.", "blue"],
+  ["CONTINUITY IS NOT A FEATURE. IT IS A BOUNDARY.", "green"],
+  ["ONE SESSION. MANY PATHS. ZERO PANIC.", "blue"],
+  ["WHO MOVES FIRST?", "amber"],
+  ["WHO WAITS TOO LONG?", "red"],
+  ["THIS IS NOT A LANDING PAGE. THIS IS A TIMER.", "red"]
+];
+
+const safeZones = [
+  { xMin: 2, xMax: 22, yMin: 5, yMax: 88 },
+  { xMin: 76, xMax: 95, yMin: 5, yMax: 88 },
+  { xMin: 8, xMax: 88, yMin: 2, yMax: 12 },
+  { xMin: 8, xMax: 88, yMin: 84, yMax: 94 }
+];
+
+function spawnMessage() {
+  const layer = document.getElementById("liveLayer");
+  const [text, color] = messages[Math.floor(Math.random() * messages.length)];
+  const zone = safeZones[Math.floor(Math.random() * safeZones.length)];
+
+  const el = document.createElement("div");
+  el.className = "live-msg " + color;
+  el.textContent = text;
+
+  const x = zone.xMin + Math.random() * (zone.xMax - zone.xMin);
+  const y = zone.yMin + Math.random() * (zone.yMax - zone.yMin);
+
+  el.style.left = x + "vw";
+  el.style.top = y + "vh";
+  el.style.animationDuration = (6.5 + Math.random() * 4.5) + "s";
+
+  layer.appendChild(el);
+
+  setTimeout(() => {
+    el.remove();
+  }, 12000);
+}
+
+setInterval(spawnMessage, 1400);
+setTimeout(() => {
+  spawnMessage();
+  spawnMessage();
+  spawnMessage();
+}, 700);
+
 let audioStarted = false;
 
 document.getElementById("audioBtn").addEventListener("click", () => {
@@ -604,7 +747,6 @@ document.getElementById("audioBtn").addEventListener("click", () => {
 
   setInterval(() => {
     const now = ctx.currentTime;
-
     bass.o.frequency.setTargetAtTime(41 + Math.random() * 5, now, 0.18);
     drone.o.frequency.setTargetAtTime(82 + Math.random() * 8, now, 0.22);
     tension.o.frequency.setTargetAtTime(125 + Math.random() * 16, now, 0.28);
