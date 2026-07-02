@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRP Pilot Countdown</title>
+
+<style>
+body{
+margin:0;
+background:#0b0b0b;
+color:white;
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+flex-direction:column;
+}
+
+h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+#timer{
+font-size:64px;
+font-weight:bold;
+color:#00ff88;
+}
+
+small{
+margin-top:40px;
+color:#888;
+}
+</style>
+</head>
+
+<body>
+
+<h1>VRP Pilot Window</h1>
+
+<div id="timer"></div>
+
+<small>Ends 31 August 2026</small>
+
+<script>
+
+const target=new Date("2026-08-31T23:59:59").getTime();
+
+function update(){
+
+const now=new Date().getTime();
+
+const diff=target-now;
+
+if(diff<=0){
+
+document.getElementById("timer").innerHTML="PILOT CLOSED";
+
+return;
+
+}
+
+const days=Math.floor(diff/86400000);
+
+const hours=Math.floor((diff%86400000)/3600000);
+
+const minutes=Math.floor((diff%3600000)/60000);
+
+const seconds=Math.floor((diff%60000)/1000);
+
+document.getElementById("timer").innerHTML=
+days+"d "+
+hours+"h "+
+minutes+"m "+
+seconds+"s";
+
+}
+
+update();
+
+setInterval(update,1000);
+
+</script>
+
+</body>
+</html>
