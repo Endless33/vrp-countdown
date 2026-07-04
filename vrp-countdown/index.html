@@ -3,85 +3,390 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VRP Pilot Countdown</title>
+<title>VRP Enterprise Pilot Countdown</title>
 
 <style>
+:root{
+  --bg:#05070a;
+  --panel:#0b1118;
+  --red:#ff2b2b;
+  --blue:#00aaff;
+  --green:#00ff88;
+  --white:#f4f7fb;
+  --muted:#8a97a6;
+}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
-margin:0;
-background:#0b0b0b;
-color:white;
-font-family:Arial,sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-flex-direction:column;
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at center,#101a24 0%,#05070a 55%,#000 100%);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+body.flash{
+  animation:screenFlash .18s linear 3;
+}
+
+@keyframes screenFlash{
+  0%{filter:brightness(1);}
+  50%{filter:brightness(2.2) contrast(1.4);}
+  100%{filter:brightness(1);}
+}
+
+.wrap{
+  width:min(1200px,96vw);
+  min-height:90vh;
+  border:1px solid rgba(0,170,255,.45);
+  background:rgba(5,10,15,.92);
+  box-shadow:0 0 60px rgba(0,170,255,.25);
+  padding:34px;
+  position:relative;
+}
+
+.grid{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,170,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,170,255,.05) 1px,transparent 1px);
+  background-size:36px 36px;
+  pointer-events:none;
+}
+
+.header{
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+
+.kicker{
+  color:var(--blue);
+  letter-spacing:6px;
+  font-size:18px;
+  font-weight:bold;
 }
 
 h1{
-font-size:48px;
-margin-bottom:20px;
+  margin:14px 0 6px;
+  font-size:64px;
+  line-height:1;
+  letter-spacing:2px;
+}
+
+.deadline{
+  margin-top:16px;
+  color:var(--red);
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:3px;
+}
+
+.timerBox{
+  margin:38px auto 28px;
+  width:min(920px,100%);
+  border:2px solid rgba(255,43,43,.75);
+  background:
+    linear-gradient(180deg,rgba(255,43,43,.18),rgba(255,43,43,.03));
+  box-shadow:0 0 40px rgba(255,43,43,.25);
+  padding:28px;
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+
+.timerLabel{
+  color:var(--muted);
+  font-size:18px;
+  letter-spacing:4px;
+  margin-bottom:12px;
 }
 
 #timer{
-font-size:64px;
-font-weight:bold;
-color:#00ff88;
+  font-size:76px;
+  font-weight:900;
+  color:var(--green);
+  text-shadow:0 0 22px rgba(0,255,136,.55);
+  letter-spacing:3px;
 }
 
-small{
-margin-top:40px;
-color:#888;
+.closed{
+  color:var(--red)!important;
+  text-shadow:0 0 28px rgba(255,43,43,.8)!important;
+}
+
+.warning{
+  font-size:36px;
+  font-weight:900;
+  color:var(--red);
+  margin-top:22px;
+  letter-spacing:2px;
+}
+
+.panels{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  position:relative;
+  z-index:2;
+}
+
+.panel{
+  border:1px solid rgba(0,170,255,.35);
+  background:rgba(10,18,26,.82);
+  padding:22px;
+  min-height:210px;
+}
+
+.panel h2{
+  margin:0 0 16px;
+  color:var(--blue);
+  font-size:22px;
+  letter-spacing:2px;
+}
+
+.panel p{
+  color:#d9e2ec;
+  line-height:1.55;
+  margin:10px 0;
+  font-size:17px;
+}
+
+.red{
+  color:var(--red);
+  font-weight:bold;
+}
+
+.green{
+  color:var(--green);
+  font-weight:bold;
+}
+
+.code{
+  font-family:Consolas,monospace;
+  font-size:15px;
+  color:#9ee7ff;
+  background:#02070c;
+  border:1px solid rgba(0,170,255,.3);
+  padding:14px;
+  white-space:pre-wrap;
+  line-height:1.45;
+}
+
+.footer{
+  margin-top:28px;
+  text-align:center;
+  position:relative;
+  z-index:2;
+  border-top:1px solid rgba(255,255,255,.15);
+  padding-top:22px;
+}
+
+.footer strong{
+  color:var(--red);
+  font-size:28px;
+  letter-spacing:2px;
+}
+
+.footer p{
+  color:var(--muted);
+  font-size:18px;
+}
+
+.pulse{
+  animation:pulse 1.6s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.75;}
+  50%{opacity:1;text-shadow:0 0 28px rgba(255,43,43,.9);}
+  100%{opacity:.75;}
+}
+
+@media(max-width:900px){
+  h1{font-size:42px;}
+  #timer{font-size:44px;}
+  .panels{grid-template-columns:1fr;}
 }
 </style>
 </head>
 
 <body>
 
-<h1>VRP Pilot Window</h1>
+<div class="wrap">
+  <div class="grid"></div>
 
-<div id="timer"></div>
+  <div class="header">
+    <div class="kicker">VRP PART II · ENTERPRISE PILOT COUNTDOWN</div>
+    <h1>THE WINDOW IS CLOSING</h1>
+    <div class="deadline">DEADLINE: SEPTEMBER 30, 2026 · 00:00 UTC</div>
+  </div>
 
-<small>Ends 31 August 2026</small>
+  <div class="timerBox">
+    <div class="timerLabel">TIME LEFT BEFORE ENTERPRISE PILOT POLICY CHANGES</div>
+    <div id="timer">loading...</div>
+    <div class="warning pulse">BIG ENTERPRISE PILOT ACCESS WILL BE SUSPENDED</div>
+  </div>
 
-<script>
+  <div class="panels">
+    <div class="panel">
+      <h2>AFTER THE DEADLINE</h2>
+      <p><span class="red">Large enterprise intake will be suspended.</span></p>
+      <p>Minimum suspension window: <span class="red">one year</span>.</p>
+      <p>Possible suspension window: <span class="red">up to two years</span>.</p>
+      <p>Medium and low business evaluation may remain open.</p>
+      <p>No new big-enterprise pilots. No exceptions. No second window guaranteed.</p>
+    </div>
 
-const target=new Date("2026-08-31T23:59:59").getTime();
+    <div class="panel">
+      <h2>PROTOCOL STATUS</h2>
+      <p>Public evidence remains public.</p>
+      <p>Protected Core remains protected.</p>
+      <p>Behavior remains observable.</p>
+      <p>Implementation remains private.</p>
+      <p class="green">VRP continues forward with or without large-enterprise participation.</p>
+    </div>
 
-function update(){
+    <div class="panel">
+      <h2>WHY REVERSE ENGINEERING FAILS</h2>
+      <p>Core logic is not exposed.</p>
+      <p>State, keys, epochs and policies evolve.</p>
+      <p>Observable behavior is not reconstructable architecture.</p>
+      <p>Every defensive layer can change without changing the public proof surface.</p>
+      <p class="red">You cannot rebuild what you cannot access.</p>
+    </div>
+  </div>
 
-const now=new Date().getTime();
+  <div class="panels" style="margin-top:18px;">
+    <div class="panel">
+      <h2>MATHEMATICS INSIDE THE MODEL</h2>
+      <p>State-space combinatorics.</p>
+      <p>Cryptographic hardness.</p>
+      <p>Replay rejection.</p>
+      <p>Epoch-bound transitions.</p>
+      <p>Distributed authority and fail-closed validation.</p>
+    </div>
 
-const diff=target-now;
-
-if(diff<=0){
-
-document.getElementById("timer").innerHTML="PILOT CLOSED";
-
-return;
-
+    <div class="panel">
+      <h2>REAL CODE. REAL BOUNDARIES.</h2>
+      <div class="code">if evidenceHash != expectedHash {
+    return REJECTED
 }
 
-const days=Math.floor(diff/86400000);
+if epoch &lt; currentEpoch {
+    return STALE_EPOCH_REJECTED
+}
 
-const hours=Math.floor((diff%86400000)/3600000);
+if replaySeen(nonce) {
+    return REPLAY_REJECTED
+}
 
-const minutes=Math.floor((diff%3600000)/60000);
+return VERIFIED</div>
+    </div>
 
-const seconds=Math.floor((diff%60000)/1000);
+    <div class="panel">
+      <h2>INDUSTRY WILL NOT STOP</h2>
+      <p>Factories continue.</p>
+      <p>Robotics continue.</p>
+      <p>Infrastructure continues.</p>
+      <p>Validation continues.</p>
+      <p class="green">The protocol evolves. The evaluation process narrows.</p>
+    </div>
+  </div>
 
-document.getElementById("timer").innerHTML=
-days+"d "+
-hours+"h "+
-minutes+"m "+
-seconds+"s";
+  <div class="footer">
+    <strong>THIS IS NOT A THREAT. THIS IS A POLICY.</strong>
+    <p>After the deadline: fewer public details, fewer explanations, more facts, more verdicts, more private validation.</p>
+    <p>Evaluate now. Or wait outside the closed window.</p>
+  </div>
+</div>
 
+<script>
+const target = new Date("2026-09-30T00:00:00Z").getTime();
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioStarted = false;
+
+function startDarkDrone(){
+  if(audioStarted) return;
+  audioStarted = true;
+
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+
+  osc1.type = "sawtooth";
+  osc2.type = "sine";
+
+  osc1.frequency.value = 42;
+  osc2.frequency.value = 56;
+
+  filter.type = "lowpass";
+  filter.frequency.value = 180;
+
+  gain.gain.value = 0.035;
+
+  osc1.connect(filter);
+  osc2.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc1.start();
+  osc2.start();
+}
+
+document.body.addEventListener("click", startDarkDrone, {once:true});
+document.body.addEventListener("touchstart", startDarkDrone, {once:true});
+
+function update(){
+  const now = new Date().getTime();
+  const diff = target - now;
+  const timer = document.getElementById("timer");
+
+  if(diff <= 0){
+    timer.innerHTML = "PILOT WINDOW CLOSED";
+    timer.classList.add("closed");
+    return;
+  }
+
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  timer.innerHTML =
+    String(days).padStart(3,"0") + "d : " +
+    String(hours).padStart(2,"0") + "h : " +
+    String(minutes).padStart(2,"0") + "m : " +
+    String(seconds).padStart(2,"0") + "s";
+}
+
+function randomFlashLoop(){
+  const delay = 2000 + Math.random() * 4000;
+
+  setTimeout(() => {
+    document.body.classList.add("flash");
+
+    setTimeout(() => {
+      document.body.classList.remove("flash");
+      randomFlashLoop();
+    }, 450);
+  }, delay);
 }
 
 update();
-
 setInterval(update,1000);
-
+randomFlashLoop();
 </script>
 
 </body>
