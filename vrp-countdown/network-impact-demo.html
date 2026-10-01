@@ -1,490 +1,2299 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>VRP Network Impact Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>
+VRP — Last Public Evaluation Window
+</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255, 60, 60, 0.14), transparent 34%),
-        linear-gradient(135deg, #050506, #101216 60%, #050506);
-      color: #f1f1f1;
-      font-family: "Courier New", monospace;
-      padding: 24px;
-    }
+<meta name="description"
+content="VRP (Veil Routing Protocol) — Continuity First. Public Architecture. Protected Runtime. Final Public Evaluation Window 2026.">
 
-    .wrap {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    .hero {
-      border: 1px solid #303641;
-      background: rgba(10, 11, 14, 0.94);
-      padding: 28px;
-      text-align: center;
-      box-shadow: 0 0 60px rgba(0,0,0,0.75);
-    }
+<style>
 
-    .tag {
-      color: #8f96a3;
-      letter-spacing: 4px;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    h1 {
-      margin: 14px 0 8px;
-      font-size: clamp(30px, 6vw, 64px);
-      letter-spacing: 3px;
-    }
+html{
 
-    .sub {
-      color: #d4d7dd;
-      line-height: 1.7;
-      font-size: 15px;
-    }
+scroll-behavior:smooth;
 
-    .deadline {
-      margin-top: 26px;
-      border: 1px solid #ff4545;
-      background: rgba(80, 0, 0, 0.18);
-      padding: 22px;
-    }
+}
 
-    .deadline-title {
-      color: #ff4545;
-      font-weight: bold;
-      letter-spacing: 3px;
-      font-size: 15px;
-      text-transform: uppercase;
-      line-height: 1.6;
-    }
+body{
 
-    .countdown {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
+background:
+radial-gradient(circle at top,#181818,#090909 60%,#040404);
 
-    .countdown div {
-      border: 1px solid #303641;
-      background: #050506;
-      padding: 18px;
-    }
+font-family:
+Inter,
+Segoe UI,
+Arial,
+sans-serif;
 
-    .countdown strong {
-      display: block;
-      color: #ff4545;
-      font-size: clamp(28px, 6vw, 44px);
-      letter-spacing: 3px;
-    }
+color:#efefef;
 
-    .countdown span {
-      color: #8f96a3;
-      font-size: 11px;
-      letter-spacing: 3px;
-    }
+overflow-x:hidden;
 
-    .deadline-note {
-      margin-top: 18px;
-      color: #d4d7dd;
-      line-height: 1.7;
-      font-size: 14px;
-    }
+}
 
-    .deadline-note strong {
-      color: #ff4545;
-    }
+a{
 
-    .grid {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+color:#58d7ff;
+text-decoration:none;
 
-    .panel {
-      border: 1px solid #303641;
-      background: rgba(10, 11, 14, 0.92);
-      padding: 18px;
-      min-height: 420px;
-      position: relative;
-      overflow: hidden;
-    }
+}
 
-    .title {
-      color: #cfd4dc;
-      font-weight: bold;
-      letter-spacing: 2px;
-      font-size: 14px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
+.wrap{
 
-    .network {
-      position: relative;
-      height: 300px;
-      border: 1px solid #222832;
-      background:
-        radial-gradient(circle at center, rgba(120,180,255,0.08), transparent 38%),
-        #06070a;
-      overflow: hidden;
-    }
+width:min(1500px,95%);
+margin:auto;
 
-    .node {
-      position: absolute;
-      width: 86px;
-      height: 86px;
-      border-radius: 50%;
-      border: 2px solid #5f6876;
-      background: #0d1015;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 11px;
-      font-weight: bold;
-      color: #e8ebef;
-      box-shadow: 0 0 20px rgba(120,180,255,0.18);
-      z-index: 2;
-    }
+}
 
-    .client { left: 8%; top: 36%; }
-    .transport { left: 39%; top: 12%; }
-    .server { right: 8%; top: 36%; }
-    .session { left: 39%; bottom: 9%; border-color: #36ff9a; box-shadow: 0 0 28px rgba(54,255,154,0.35); }
+section{
 
-    .line {
-      position: absolute;
-      height: 2px;
-      background: #39414d;
-      transform-origin: left center;
-      z-index: 1;
-    }
+margin-top:34px;
 
-    .line.good {
-      background: #36ff9a;
-      box-shadow: 0 0 14px rgba(54,255,154,0.55);
-    }
+}
 
-    .line.bad {
-      background: #ff4545;
-      box-shadow: 0 0 14px rgba(255,69,69,0.55);
-      animation: flicker 0.3s infinite;
-    }
+h1{
 
-    .packet {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      background: #48b8ff;
-      border-radius: 50%;
-      box-shadow: 0 0 18px #48b8ff;
-      z-index: 3;
-      animation: move 2.2s linear infinite;
-    }
+font-size:64px;
+font-weight:800;
+letter-spacing:2px;
 
-    .attack {
-      background: #ff4545;
-      box-shadow: 0 0 18px #ff4545;
-      animation: attackMove 1.1s linear infinite;
-    }
+}
 
-    @keyframes move {
-      0% { left: 14%; top: 48%; opacity: 0; }
-      15% { opacity: 1; }
-      50% { left: 48%; top: 25%; }
-      100% { left: 82%; top: 48%; opacity: 0; }
-    }
+h2{
 
-    @keyframes attackMove {
-      0% { left: 5%; top: 10%; opacity: 0; }
-      20% { opacity: 1; }
-      100% { left: 44%; top: 71%; opacity: 0; }
-    }
+font-size:32px;
+margin-bottom:20px;
 
-    @keyframes flicker {
-      0%, 100% { opacity: 0.25; }
-      50% { opacity: 1; }
-    }
+}
 
-    .verdict {
-      margin-top: 16px;
-      display: grid;
-      gap: 10px;
-    }
+p{
 
-    .row {
-      border: 1px solid #252b34;
-      background: #07080a;
-      padding: 11px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 12px;
-    }
+line-height:1.8;
+color:#c8c8c8;
 
-    .key {
-      color: #818996;
-    }
+}
+/* =======================================================
+   HERO
+======================================================= */
 
-    .ok {
-      color: #36ff9a;
-      font-weight: bold;
-    }
+.hero{
 
-    .fail {
-      color: #ff4545;
-      font-weight: bold;
-    }
+position:relative;
 
-    .warn {
-      color: #ffb347;
-      font-weight: bold;
-    }
+min-height:100vh;
 
-    .controls {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
+display:flex;
 
-    button {
-      border: 1px solid #3b414c;
-      background: #11141a;
-      color: #f1f1f1;
-      font-family: "Courier New", monospace;
-      padding: 13px;
-      cursor: pointer;
-      letter-spacing: 1px;
-    }
+align-items:center;
 
-    button:hover,
-    button.active {
-      border-color: #ff4747;
-      background: rgba(255, 40, 40, 0.14);
-    }
+justify-content:center;
 
-    .explain {
-      margin-top: 22px;
-      border: 1px solid #303641;
-      background: rgba(10, 11, 14, 0.92);
-      padding: 18px;
-      line-height: 1.7;
-      color: #d8dbe0;
-    }
+overflow:hidden;
 
-    .footer {
-      margin-top: 22px;
-      color: #777e8b;
-      font-size: 12px;
-      text-align: center;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+}
 
-    @media (max-width: 850px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+.hero::before{
 
-      .controls {
-        grid-template-columns: 1fr 1fr;
-      }
+content:"";
 
-      .countdown {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-  </style>
+position:absolute;
+
+inset:0;
+
+background:
+
+radial-gradient(circle at center,
+rgba(0,170,255,.12),
+transparent 38%),
+
+radial-gradient(circle at 15% 20%,
+rgba(255,60,60,.10),
+transparent 24%),
+
+radial-gradient(circle at 85% 80%,
+rgba(0,255,140,.08),
+transparent 28%);
+
+animation:pulse 8s linear infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+50%{
+
+transform:scale(1.08);
+
+opacity:.75;
+
+}
+
+100%{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
+
+.hero-inner{
+
+position:relative;
+
+z-index:10;
+
+text-align:center;
+
+padding:80px 30px;
+
+}
+
+.version{
+
+display:inline-block;
+
+padding:8px 18px;
+
+border:1px solid #2b4b61;
+
+border-radius:999px;
+
+background:#0b1117;
+
+color:#68d8ff;
+
+font-size:13px;
+
+letter-spacing:3px;
+
+text-transform:uppercase;
+
+}
+
+.hero h1{
+
+margin-top:26px;
+
+font-size:clamp(54px,8vw,110px);
+
+line-height:1;
+
+font-weight:900;
+
+}
+
+.hero h1 span{
+
+color:#41d7ff;
+
+}
+
+.hero p{
+
+margin:35px auto;
+
+max-width:920px;
+
+font-size:20px;
+
+line-height:1.9;
+
+color:#d0d0d0;
+
+}
+
+.statement{
+
+margin-top:35px;
+
+font-size:32px;
+
+font-weight:700;
+
+letter-spacing:2px;
+
+}
+
+.statement strong{
+
+color:#43ff9d;
+
+}
+
+.deadline{
+
+margin-top:60px;
+
+display:inline-block;
+
+padding:22px 34px;
+
+border:1px solid #3d434b;
+
+background:#0b0d10;
+
+}
+
+.deadline-title{
+
+color:#ff4f4f;
+
+font-size:15px;
+
+letter-spacing:4px;
+
+text-transform:uppercase;
+
+margin-bottom:18px;
+
+}
+
+.timer{
+
+display:grid;
+
+grid-template-columns:repeat(4,150px);
+
+gap:16px;
+
+justify-content:center;
+
+}
+
+.timebox{
+
+background:#050608;
+
+border:1px solid #2d343c;
+
+padding:22px;
+
+}
+
+.timebox strong{
+
+display:block;
+
+font-size:56px;
+
+font-family:Consolas,monospace;
+
+color:#49dcff;
+
+}
+
+.timebox span{
+
+display:block;
+
+margin-top:8px;
+
+font-size:12px;
+
+letter-spacing:3px;
+
+color:#8e98a4;
+
+}
+
+.status-grid{
+
+margin-top:70px;
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:20px;
+
+}
+
+.card{
+
+background:#0b0d10;
+
+border:1px solid #2d343c;
+
+padding:22px;
+
+text-align:left;
+
+}
+
+.card-title{
+
+font-size:13px;
+
+color:#7f8d99;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+margin-bottom:14px;
+
+}
+
+.card-value{
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+.ok{
+
+color:#46ff9b;
+
+}
+
+.warn{
+
+color:#ffd26b;
+
+}
+
+.private{
+
+color:#ff6565;
+
+}
+.hero-buttons{
+
+margin-top:50px;
+
+display:flex;
+
+justify-content:center;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:18px 34px;
+
+font-size:15px;
+
+font-weight:700;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+border:1px solid #2d3d48;
+
+background:#101317;
+
+color:white;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.btn:hover{
+
+transform:translateY(-3px);
+
+border-color:#46d8ff;
+
+box-shadow:0 0 25px rgba(70,216,255,.35);
+
+}
+
+.btn.primary{
+
+background:#46d8ff;
+
+color:#081015;
+
+border:none;
+
+}
+
+.btn.primary:hover{
+
+background:#67e1ff;
+
+}
+
+.live-banner{
+
+margin-top:70px;
+
+padding:18px;
+
+border:1px solid #32424f;
+
+background:#0d1116;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:16px;
+
+font-family:Consolas,monospace;
+
+font-size:14px;
+
+letter-spacing:1px;
+
+}
+
+.live-dot{
+
+width:12px;
+
+height:12px;
+
+border-radius:50%;
+
+background:#41ff8f;
+
+box-shadow:
+
+0 0 12px #41ff8f,
+
+0 0 24px #41ff8f;
+
+animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+0%{opacity:1;}
+
+50%{opacity:.25;}
+
+100%{opacity:1;}
+
+}
+
+.matrix{
+
+position:absolute;
+
+inset:0;
+
+pointer-events:none;
+
+opacity:.06;
+
+background-image:
+
+linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+
+background-size:42px 42px;
+
+animation:gridmove 25s linear infinite;
+
+}
+
+@keyframes gridmove{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+100%{
+
+transform:translateY(42px);
+
+}
+
+}
+
+@media(max-width:980px){
+
+.status-grid{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.timer{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.hero h1{
+
+font-size:58px;
+
+}
+
+}
+
+@media(max-width:680px){
+
+.status-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.timer{
+
+grid-template-columns:1fr;
+
+}
+
+.hero{
+
+padding-top:40px;
+
+padding-bottom:40px;
+
+}
+
+.hero h1{
+
+font-size:42px;
+
+}
+
+.hero p{
+
+font-size:17px;
+
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="tag">VRP / Network Impact Demo</div>
-      <h1>WHAT CHANGES WITH VRP?</h1>
-      <div class="sub">
-        Pilot access window has been reduced by one month.<br />
-        Current public intake closes July 31, 2026. Protected Core remains protected.
-      </div>
 
-      <div class="deadline">
-        <div class="deadline-title">
-          Pilot window closes July 31, 2026 — 00:00 UTC
-        </div>
+<div class="matrix"></div>
 
-        <div class="countdown">
-          <div>
-            <strong id="days">000</strong>
-            <span>DAYS</span>
-          </div>
-          <div>
-            <strong id="hours">00</strong>
-            <span>HOURS</span>
-          </div>
-          <div>
-            <strong id="minutes">00</strong>
-            <span>MINUTES</span>
-          </div>
-          <div>
-            <strong id="seconds">00</strong>
-            <span>SECONDS</span>
-          </div>
-        </div>
+<div class="wrap">
 
-        <div class="deadline-note">
-          Previous August window is no longer active.<br />
-          Enterprise pilot access is currently <strong>€100,000</strong> until July 31, 2026.<br />
-          After July 31, enterprise pilot pricing may increase to <strong>€5,000,000</strong> per pilot.<br />
-          Pilot access may close for six months or longer. Future availability is not guaranteed.
-        </div>
-      </div>
-    </section>
+<section class="hero">
 
-    <section class="grid">
-      <div class="panel">
-        <div class="title">Without Continuity-First Runtime</div>
+<div class="hero-inner">
 
-        <div class="network" id="legacyNetwork">
-          <div class="node client">CLIENT</div>
-          <div class="node transport">TRANSPORT</div>
-          <div class="node server">SERVER</div>
+<div class="version">
 
-          <div class="line bad" style="left: 18%; top: 49%; width: 38%; transform: rotate(-24deg);"></div>
-          <div class="line bad" style="left: 50%; top: 26%; width: 36%; transform: rotate(24deg);"></div>
+PUBLIC ENGINEERING DEMONSTRATION
 
-          <div class="packet attack"></div>
-          <div class="packet attack" style="animation-delay: .25s;"></div>
-          <div class="packet attack" style="animation-delay: .55s;"></div>
-        </div>
+</div>
 
-        <div class="verdict">
-          <div class="row"><span class="key">Transport failure</span><span class="fail">SESSION IMPACT</span></div>
-          <div class="row"><span class="key">Reconnect</span><span class="warn">STATE REBUILD</span></div>
-          <div class="row"><span class="key">Replay attempt</span><span class="warn">APPLICATION RISK</span></div>
-          <div class="row"><span class="key">Execution continuity</span><span class="fail">NOT GUARANTEED</span></div>
-        </div>
-      </div>
+<h1>
 
-      <div class="panel">
-        <div class="title">With VRP Continuity Model</div>
+VRP
 
-        <div class="network" id="vrpNetwork">
-          <div class="node client">CLIENT</div>
-          <div class="node transport">REPLACEABLE<br />TRANSPORT</div>
-          <div class="node server">SERVER</div>
-          <div class="node session">SESSION<br />IDENTITY</div>
+<br>
 
-          <div class="line good" style="left: 18%; top: 49%; width: 38%; transform: rotate(-24deg);"></div>
-          <div class="line good" style="left: 50%; top: 26%; width: 36%; transform: rotate(24deg);"></div>
-          <div class="line good" style="left: 50%; top: 38%; width: 24%; transform: rotate(90deg);"></div>
+<span>VEIL ROUTING PROTOCOL</span>
 
-          <div class="packet"></div>
-          <div class="packet" style="animation-delay: .45s;"></div>
-          <div class="packet" style="animation-delay: .9s;"></div>
-        </div>
+</h1>
 
-        <div class="verdict">
-          <div class="row"><span class="key">Transport failure</span><span class="ok" id="v1">CONTAINED</span></div>
-          <div class="row"><span class="key">Session identity</span><span class="ok" id="v2">PRESERVED</span></div>
-          <div class="row"><span class="key">Replay attempt</span><span class="ok" id="v3">REJECTED</span></div>
-          <div class="row"><span class="key">Execution continuity</span><span class="ok" id="v4">PRESERVED</span></div>
-        </div>
-      </div>
-    </section>
+<p>
 
-    <section class="controls">
-      <button class="active" onclick="setMode(event, 'network')">NETWORK FAILURE</button>
-      <button onclick="setMode(event, 'migration')">PATH MIGRATION</button>
-      <button onclick="setMode(event, 'replay')">REPLAY ATTACK</button>
-      <button onclick="setMode(event, 'blackout')">BLACKOUT</button>
-    </section>
+A continuity-first networking architecture built around one engineering principle.
 
-    <section class="explain" id="explain">
-      In a traditional model, transport failure can become session failure.
-      In the VRP model, session identity remains canonical while transport is treated as replaceable.
-    </section>
+Transport may fail.
 
-    <div class="footer">
-      Public visualization only. Protected Core not disclosed.
-    </div>
-  </div>
+The session must remain canonical.
 
-  <script>
-    const text = {
-      network: {
-        v1: "CONTAINED",
-        v2: "PRESERVED",
-        v3: "NO EFFECT",
-        v4: "PRESERVED",
-        explain: "Network failure changes the transport condition. The observable VRP model keeps session identity stable while the failed path is treated as replaceable."
-      },
-      migration: {
-        v1: "PATH CHANGED",
-        v2: "PRESERVED",
-        v3: "NO EFFECT",
-        v4: "MIGRATION PRESERVED",
-        explain: "Path migration changes where packets travel. It should not force the logical session to restart or rebuild its execution identity."
-      },
-      replay: {
-        v1: "UNCHANGED",
-        v2: "PRESERVED",
-        v3: "REJECTED",
-        v4: "PRESERVED",
-        explain: "Replay attempts are represented as hostile duplicate traffic. The public model shows the expected outcome: rejection without exposing Protected Core logic."
-      },
-      blackout: {
-        v1: "RECOVERED",
-        v2: "PRESERVED",
-        v3: "NO EFFECT",
-        v4: "RECOVERY PRESERVED",
-        explain: "Blackout recovery demonstrates the difference between temporary transport disappearance and logical execution death. VRP focuses on preserving continuity across disruption."
-      }
-    };
+Public architecture is available.
 
-    function setMode(event, mode) {
-      document.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-      event.target.classList.add("active");
+Protected Runtime remains private.
 
-      document.getElementById("v1").textContent = text[mode].v1;
-      document.getElementById("v2").textContent = text[mode].v2;
-      document.getElementById("v3").textContent = text[mode].v3;
-      document.getElementById("v4").textContent = text[mode].v4;
-      document.getElementById("explain").textContent = text[mode].explain;
-    }
+</p>
 
-    const deadline = new Date("2026-07-31T00:00:00Z").getTime();
+<div class="statement">
 
-    function updateCountdown() {
-      const now = Date.now();
-      const diff = Math.max(0, deadline - now);
+SESSION ≠ TRANSPORT
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+<br><br>
 
-      document.getElementById("days").textContent = String(days).padStart(3, "0");
-      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
-    }
+<strong>
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
+CONTINUITY FIRST
+
+</strong>
+
+</div>
+
+<div class="deadline">
+
+<div class="deadline-title">
+
+LAST PUBLIC EVALUATION WINDOW
+
+ENDS
+
+31 DECEMBER 2026
+
+23:59:59 UTC
+
+</div>
+
+<div class="timer">
+
+<div class="timebox">
+
+<strong id="days">000</strong>
+
+<span>DAYS</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="hours">00</strong>
+
+<span>HOURS</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="minutes">00</strong>
+
+<span>MINUTES</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="seconds">00</strong>
+
+<span>SECONDS</span>
+
+</div>
+
+</div>
+
+</div>
+<div class="status-grid">
+
+<div class="card">
+
+<div class="card-title">
+Protocol Status
+</div>
+
+<div class="card-value ok">
+ACTIVE DEVELOPMENT
+</div>
+
+<p style="margin-top:18px">
+
+Public architecture continues to evolve through
+engineering validation, adversarial testing and
+runtime hardening.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Protected Runtime
+</div>
+
+<div class="card-value private">
+PRIVATE
+</div>
+
+<p style="margin-top:18px">
+
+Observable protocol behaviour is public.
+
+Protected implementation remains private.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Engineering Validation
+</div>
+
+<div class="card-value ok">
+CONTINUOUS
+</div>
+
+<p style="margin-top:18px">
+
+Deterministic validation
+
+Replay protection
+
+Recovery testing
+
+Long-duration verification
+
+Evidence-first engineering
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Public Resources
+</div>
+
+<div class="card-value warn">
+AVAILABLE
+</div>
+
+<p style="margin-top:18px">
+
+✓ VRP Specification
+
+✓ Runtime Boundary Preview
+
+✓ Public Demo
+
+✓ Validation Kit
+
+</p>
+
+</div>
+
+</div>
+
+<div class="hero-buttons">
+
+<a
+class="btn primary"
+href="https://github.com/Endless33/VRP-specification"
+target="_blank">
+
+VIEW SPECIFICATION
+
+</a>
+
+<a
+class="btn"
+href="https://github.com/Endless33/vrp-runtime-boundary-preview"
+target="_blank">
+
+RUNTIME BOUNDARY
+
+</a>
+
+<a
+class="btn"
+href="https://github.com/Endless33/vrp-public-demo"
+target="_blank">
+
+PUBLIC DEMO
+
+</a>
+
+</div>
+
+<div class="live-banner">
+
+<div class="live-dot"></div>
+
+<div>
+
+STATUS:
+ENGINEERING ACTIVE
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+PROTECTED RUNTIME:
+PRIVATE
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+PUBLIC EVALUATION WINDOW:
+OPEN
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="architecture">
+
+<div class="wrap">
+
+<h2>
+
+HOW VRP WORKS
+
+</h2>
+
+<p style="max-width:950px;margin-bottom:35px;">
+
+Traditional networking binds the logical session directly to the transport.
+When the transport fails, applications often reconnect, rebuild state or
+restart execution.
+
+VRP introduces a different model.
+
+The transport becomes replaceable.
+
+The session remains canonical.
+
+</p>
+
+<div class="diagram">
+
+<div class="diagram-column">
+
+<h3>
+
+Traditional Model
+
+</h3>
+
+<div class="flow">
+
+<div class="box client">
+
+CLIENT
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box transport bad">
+
+TRANSPORT
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box danger">
+
+TRANSPORT FAILURE
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box fail">
+
+SESSION INTERRUPTED
+
+</div>
+
+</div>
+
+</div>
+
+<div class="diagram-column">
+
+<h3>
+
+VRP Continuity Model
+
+</h3>
+
+<div class="flow">
+
+<div class="box client">
+
+CLIENT
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box session">
+
+CANONICAL
+
+SESSION
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box transport">
+
+TRANSPORT A
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box transport">
+
+TRANSPORT B
+
+</div>
+
+<div class="arrow">
+
+↓
+
+</div>
+
+<div class="box success">
+
+SESSION PRESERVED
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="comparison-grid">
+
+<div class="compare">
+
+<div class="compare-title">
+
+WITHOUT CONTINUITY-FIRST
+
+</div>
+
+<ul>
+
+<li>Transport becomes the execution boundary</li>
+
+<li>Reconnect may rebuild application state</li>
+
+<li>Recovery depends on application behaviour</li>
+
+<li>Session continuity is not guaranteed</li>
+
+</ul>
+
+</div>
+
+<div class="compare">
+
+<div class="compare-title">
+
+WITH VRP
+
+</div>
+
+<ul>
+
+<li>Session identity remains canonical</li>
+
+<li>Transport is replaceable</li>
+
+<li>Replay attempts are rejected</li>
+
+<li>Recovery focuses on continuity instead of restart</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="simulation">
+
+<div class="wrap">
+
+<h2>
+
+INTERACTIVE ENGINEERING SCENARIOS
+
+</h2>
+
+<p style="max-width:980px;margin-bottom:40px;">
+
+The visualization below represents public protocol behaviour only.
+
+It illustrates engineering concepts without exposing Protected Runtime implementation.
+
+Each scenario demonstrates the expected observable behaviour under different network conditions.
+
+</p>
+
+<div class="scenario-buttons">
+
+<button class="scenario active" onclick="setScenario('failure')">
+
+NETWORK FAILURE
+
+</button>
+
+<button class="scenario" onclick="setScenario('migration')">
+
+PATH MIGRATION
+
+</button>
+
+<button class="scenario" onclick="setScenario('replay')">
+
+REPLAY ATTACK
+
+</button>
+
+<button class="scenario" onclick="setScenario('blackout')">
+
+BLACKOUT RECOVERY
+
+</button>
+
+</div>
+
+<div class="runtime-layout">
+
+<div class="network-panel">
+
+<div class="network-title">
+
+PUBLIC OBSERVATION MODEL
+
+</div>
+
+<div class="network-map">
+
+<div class="host client-node">
+
+CLIENT
+
+</div>
+
+<div class="host transport-a">
+
+TRANSPORT A
+
+</div>
+
+<div class="host transport-b">
+
+TRANSPORT B
+
+</div>
+
+<div class="host session-node">
+
+CANONICAL
+
+SESSION
+
+</div>
+
+<div class="host server-node">
+
+SERVER
+
+</div>
+
+<div id="packet"></div>
+
+</div>
+
+</div>
+
+<div class="runtime-panel">
+
+<div class="terminal-title">
+
+LIVE RUNTIME STATUS
+
+</div>
+
+<pre id="terminal">
+
+UTC....................LIVE
+
+STATUS.................ACTIVE
+
+SESSION................PRESERVED
+
+TRANSPORT..............PRIMARY
+
+REPLAY.................NONE
+
+AUTHORITY..............VALID
+
+CANONICAL..............CONSISTENT
+
+FINAL VERDICT..........CONTINUITY PRESERVED
+
+</pre>
+
+</div>
+
+</div>
+
+<div class="verdict-grid">
+
+<div class="verdict-box">
+
+<div class="label">
+
+Session Identity
+
+</div>
+
+<div id="state-session" class="value ok">
+
+PRESERVED
+
+</div>
+
+</div>
+
+<div class="verdict-box">
+
+<div class="label">
+
+Transport
+
+</div>
+
+<div id="state-transport" class="value ok">
+
+ACTIVE
+
+</div>
+
+</div>
+
+<div class="verdict-box">
+
+<div class="label">
+
+Replay
+
+</div>
+
+<div id="state-replay" class="value ok">
+
+NO ATTACK
+
+</div>
+
+</div>
+
+<div class="verdict-box">
+
+<div class="label">
+
+Runtime
+
+</div>
+
+<div id="state-runtime" class="value ok">
+
+HEALTHY
+
+</div>
+
+</div>
+
+</div>
+
+<div id="scenario-text" class="scenario-text">
+
+Network interruption affects transport.
+
+The logical session remains canonical.
+
+Execution continues without changing session identity.
+
+</div>
+
+</div>
+
+</section>
+
+/* =======================================================
+   ARCHITECTURE
+======================================================= */
+
+.architecture,
+.simulation{
+
+padding:90px 0;
+
+}
+
+.diagram{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:40px;
+
+margin-top:40px;
+
+}
+
+.diagram-column{
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+padding:28px;
+
+border-radius:12px;
+
+}
+
+.diagram-column h3{
+
+margin-bottom:25px;
+
+font-size:22px;
+
+color:#ffffff;
+
+}
+
+.flow{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:16px;
+
+}
+
+.box{
+
+width:220px;
+
+padding:18px;
+
+border-radius:10px;
+
+text-align:center;
+
+font-weight:700;
+
+border:1px solid #39424c;
+
+background:#12161c;
+
+}
+
+.box.client{
+
+border-color:#49d7ff;
+
+}
+
+.box.session{
+
+border-color:#46ff9b;
+
+box-shadow:0 0 18px rgba(70,255,155,.18);
+
+}
+
+.box.transport{
+
+border-color:#ffd66d;
+
+}
+
+.box.bad{
+
+border-color:#ff7d7d;
+
+}
+
+.box.success{
+
+background:#12311f;
+
+border-color:#46ff9b;
+
+color:#46ff9b;
+
+}
+
+.box.fail{
+
+background:#351515;
+
+border-color:#ff6565;
+
+color:#ff6565;
+
+}
+
+.box.danger{
+
+background:#2b1a1a;
+
+border-color:#ff8c52;
+
+color:#ffb86b;
+
+}
+
+.arrow{
+
+font-size:26px;
+
+color:#6d7682;
+
+}
+
+.comparison-grid{
+
+margin-top:50px;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:28px;
+
+}
+
+.compare{
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+padding:24px;
+
+border-radius:12px;
+
+}
+
+.compare-title{
+
+margin-bottom:18px;
+
+font-size:18px;
+
+font-weight:700;
+
+color:#49d7ff;
+
+}
+
+.compare ul{
+
+padding-left:20px;
+
+line-height:2;
+
+color:#d0d0d0;
+
+}
+
+/* =======================================================
+   SIMULATION
+======================================================= */
+
+.scenario-buttons{
+
+display:flex;
+
+gap:14px;
+
+flex-wrap:wrap;
+
+margin:35px 0;
+
+}
+
+.scenario{
+
+padding:14px 22px;
+
+background:#11161c;
+
+border:1px solid #37414d;
+
+color:#fff;
+
+cursor:pointer;
+
+border-radius:8px;
+
+transition:.25s;
+
+font-weight:700;
+
+}
+
+.scenario:hover,
+.scenario.active{
+
+border-color:#49d7ff;
+
+box-shadow:0 0 18px rgba(73,215,255,.25);
+
+}
+
+.runtime-layout{
+
+display:grid;
+
+grid-template-columns:1.2fr .8fr;
+
+gap:28px;
+
+margin-top:25px;
+
+}
+
+.network-panel,
+.runtime-panel{
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+border-radius:12px;
+
+padding:24px;
+
+}
+
+.network-title,
+.terminal-title{
+
+font-size:15px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+margin-bottom:20px;
+
+color:#9eb0c0;
+
+}
+
+.network-map{
+
+position:relative;
+
+height:420px;
+
+border:1px solid #202830;
+
+border-radius:10px;
+
+background:
+radial-gradient(circle at center,rgba(73,215,255,.08),transparent 45%),
+#07090c;
+
+overflow:hidden;
+
+}
+
+.host{
+
+position:absolute;
+
+width:120px;
+
+height:60px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+text-align:center;
+
+border-radius:10px;
+
+background:#151b22;
+
+border:1px solid #3d4652;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.client-node{left:40px;top:180px;}
+.transport-a{left:260px;top:70px;}
+.transport-b{left:260px;top:290px;}
+.session-node{left:500px;top:180px;border-color:#46ff9b;}
+.server-node{right:40px;top:180px;}
+
+#packet{
+
+position:absolute;
+
+width:14px;
+
+height:14px;
+
+border-radius:50%;
+
+background:#49d7ff;
+
+box-shadow:0 0 18px #49d7ff;
+
+left:90px;
+
+top:205px;
+
+animation:packetMove 3s linear infinite;
+
+}
+
+@keyframes packetMove{
+
+0%{
+
+left:90px;
+top:205px;
+
+}
+
+50%{
+
+left:560px;
+top:205px;
+
+}
+
+100%{
+
+left:850px;
+top:205px;
+
+}
+
+}
+
+.runtime-panel pre{
+
+font-family:Consolas,monospace;
+
+font-size:14px;
+
+line-height:2;
+
+color:#46ff9b;
+
+white-space:pre-wrap;
+
+}
+
+.verdict-grid{
+
+margin-top:28px;
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:18px;
+
+}
+
+.verdict-box{
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+padding:18px;
+
+border-radius:10px;
+
+}
+
+.label{
+
+font-size:12px;
+
+color:#8c98a4;
+
+text-transform:uppercase;
+
+margin-bottom:10px;
+
+}
+
+.value{
+
+font-size:18px;
+
+font-weight:700;
+
+}
+
+.scenario-text{
+
+margin-top:26px;
+
+padding:22px;
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+border-radius:10px;
+
+line-height:1.8;
+
+color:#d0d0d0;
+
+}
+
+@media(max-width:1000px){
+
+.diagram,
+.runtime-layout,
+.comparison-grid,
+.verdict-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.network-map{
+
+height:320px;
+
+}
+
+}
+
+<script>
+
+const deadline = new Date("2026-12-31T23:59:59Z").getTime();
+
+function updateCountdown(){
+
+const now = Date.now();
+
+const diff = Math.max(0,deadline-now);
+
+const days=Math.floor(diff/86400000);
+
+const hours=Math.floor((diff%86400000)/3600000);
+
+const minutes=Math.floor((diff%3600000)/60000);
+
+const seconds=Math.floor((diff%60000)/1000);
+
+document.getElementById("days").textContent=
+String(days).padStart(3,"0");
+
+document.getElementById("hours").textContent=
+String(hours).padStart(2,"0");
+
+document.getElementById("minutes").textContent=
+String(minutes).padStart(2,"0");
+
+document.getElementById("seconds").textContent=
+String(seconds).padStart(2,"0");
+
+}
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+const scenarios={
+
+failure:{
+
+transport:"FAILED",
+
+session:"PRESERVED",
+
+replay:"NO EFFECT",
+
+runtime:"CONTINUITY PRESERVED",
+
+text:
+"Transport failure is contained. Session identity remains canonical while transport is replaced.",
+
+terminal:`
+
+UTC....................LIVE
+
+STATUS.................ACTIVE
+
+TRANSPORT..............FAILED
+
+RECOVERY...............STARTED
+
+NEW PATH...............SELECTED
+
+SESSION................PRESERVED
+
+CANONICAL..............CONSISTENT
+
+FINAL VERDICT..........CONTINUITY PRESERVED
+
+`
+
+},
+
+migration:{
+
+transport:"MIGRATED",
+
+session:"PRESERVED",
+
+replay:"NO EFFECT",
+
+runtime:"PATH CHANGED",
+
+text:
+"Traffic migrates to another transport without changing the logical session.",
+
+terminal:`
+
+UTC....................LIVE
+
+STATUS.................ACTIVE
+
+PATH...................MIGRATED
+
+TRANSPORT..............REPLACED
+
+SESSION................UNCHANGED
+
+CANONICAL..............CONSISTENT
+
+FINAL VERDICT..........PATH MIGRATION PRESERVED
+
+`
+
+},
+
+replay:{
+
+transport:"ACTIVE",
+
+session:"PRESERVED",
+
+replay:"REJECTED",
+
+runtime:"SECURE",
+
+text:
+"Replay traffic is rejected while canonical execution continues.",
+
+terminal:`
+
+UTC....................LIVE
+
+STATUS.................ACTIVE
+
+REPLAY.................DETECTED
+
+ACTION.................REJECTED
+
+SESSION................PRESERVED
+
+CANONICAL..............UNCHANGED
+
+FINAL VERDICT..........REPLAY REJECTED
+
+`
+
+},
+
+blackout:{
+
+transport:"RECOVERED",
+
+session:"PRESERVED",
+
+replay:"NO EFFECT",
+
+runtime:"RECOVERY COMPLETE",
+
+text:
+"Temporary transport loss is recovered without changing the logical session.",
+
+terminal:`
+
+UTC....................LIVE
+
+STATUS.................RECOVERING
+
+TRANSPORT..............OFFLINE
+
+RECOVERY...............SUCCESS
+
+TRANSPORT..............ONLINE
+
+SESSION................PRESERVED
+
+FINAL VERDICT..........RECOVERY PRESERVED
+
+`
+
+}
+
+};
+
+function setScenario(name){
+
+document.querySelectorAll(".scenario")
+.forEach(b=>b.classList.remove("active"));
+
+event.target.classList.add("active");
+
+const s=scenarios[name];
+
+document.getElementById("state-session").textContent=s.session;
+
+document.getElementById("state-transport").textContent=s.transport;
+
+document.getElementById("state-replay").textContent=s.replay;
+
+document.getElementById("state-runtime").textContent=s.runtime;
+
+document.getElementById("scenario-text").textContent=s.text;
+
+document.getElementById("terminal").textContent=s.terminal;
+
+}
+
+setScenario("failure");
+
+</script>
+
 </body>
+
 </html>
+
+.timeline{
+
+padding:90px 0;
+
+}
+
+.timeline-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:24px;
+
+margin-top:30px;
+
+}
+
+.timeline-card{
+
+background:#0b0d10;
+
+border:1px solid #29313a;
+
+padding:24px;
+
+border-radius:12px;
+
+transition:.25s;
+
+}
+
+.timeline-card:hover{
+
+transform:translateY(-4px);
+
+border-color:#49d7ff;
+
+box-shadow:0 0 20px rgba(73,215,255,.15);
+
+}
+
+.timeline-head{
+
+font-size:15px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+margin-bottom:12px;
+
+color:#9eb0c0;
+
+}
+
+.timeline-status{
+
+font-size:22px;
+
+font-weight:700;
+
+margin-bottom:18px;
+
+}
+
+<section class="resources">
+
+<div class="wrap">
+
+<h2>
+
+PUBLIC ENGINEERING RESOURCES
+
+</h2>
+
+<p style="max-width:900px;margin-bottom:42px;">
+
+VRP follows an evidence-first approach.
+
+Public documentation is intended to make architectural decisions understandable and independently reviewable, while the protected runtime implementation remains private.
+
+</p>
+
+<div class="resource-grid">
+
+<div class="resource-card">
+
+<div class="resource-title">
+
+VRP SPECIFICATION
+
+</div>
+
+<p>
+
+Architecture, protocol concepts, design principles and engineering rationale.
+
+</p>
+
+<a href="https://github.com/Endless33/VRP-specification" target="_blank">
+
+Open Repository →
+
+</a>
+
+</div>
+
+<div class="resource-card">
+
+<div class="resource-title">
+
+RUNTIME BOUNDARY
+
+</div>
+
+<p>
+
+Public API demonstrating integration boundaries without exposing protected implementation.
+
+</p>
+
+<a href="https://github.com/Endless33/vrp-runtime-boundary-preview" target="_blank">
+
+Open Repository →
+
+</a>
+
+</div>
+
+<div class="resource-card">
+
+<div class="resource-title">
+
+PUBLIC DEMO
+
+</div>
+
+<p>
+
+Standalone engineering demonstration showing public protocol behaviour.
+
+</p>
+
+<a href="https://github.com/Endless33/vrp-public-demo" target="_blank">
+
+Open Repository →
+
+</a>
+
+</div>
+
+<div class="resource-card">
+
+<div class="resource-title">
+
+VALIDATION APPROACH
+
+</div>
+
+<p>
+
+Engineering validation focuses on reproducibility, determinism, adversarial testing and observable evidence.
+
+</p>
+
+<div class="resource-badge">
+
+Evidence First
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="principles">
+
+<div class="wrap">
+
+<h2>
+
+ENGINEERING PRINCIPLES
+
+</h2>
+
+<p class="principles-sub">
+
+The following principles define the public engineering philosophy of VRP.
+
+They describe architectural intent rather than protected implementation.
+
+</p>
+
+<div class="principles-grid">
+
+<div class="principle">
+
+<div class="principle-number">
+
+01
+
+</div>
+
+<div class="principle-title">
+
+SESSION ≠ TRANSPORT
+
+</div>
+
+<p>
+
+Logical session identity is treated independently from the underlying transport.
+
+</p>
+
+</div>
+
+<div class="principle">
+
+<div class="principle-number">
+
+02
+
+</div>
+
+<div class="principle-title">
+
+CONTINUITY FIRST
+
+</div>
+
+<p>
+
+Temporary transport disruption should not define logical execution.
+
+</p>
+
+</div>
+
+<div class="principle">
+
+<div class="principle-number">
+
+03
+
+</div>
+
+<div class="principle-title">
+
+EVIDENCE BEFORE CLAIMS
+
+</div>
+
+<p>
+
+Engineering statements should be supported by reproducible validation.
+
+</p>
+
+</div>
+
+<div class="principle">
+
+<div class="principle-number">
+
+04
+
+</div>
+
+<div class="principle-title">
+
+DETERMINISTIC BEHAVIOUR
+
+</div>
+
+<p>
+
+Predictable execution is preferred over implementation complexity.
+
+</p>
+
+</div>
+
+<div class="principle">
+
+<div class="principle-number">
+
+05
+
+</div>
+
+<div class="principle-title">
+
+PUBLIC ARCHITECTURE
+
+</div>
+
+<p>
+
+Architecture may be reviewed independently without requiring access to the protected runtime.
+
+</p>
+
+</div>
+
+<div class="principle">
+
+<div class="principle-number">
+
+06
+
+</div>
+
+<div class="principle-title">
+
+PROTECTED IMPLEMENTATION
+
+</div>
+
+<p>
+
+Observable behaviour is public.
+
+Protected implementation remains private.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="closing">
+
+SESSION ≠ TRANSPORT
+
+<br><br>
+
+CONTINUITY FIRST
+
+</div>
+
+</div>
+
+</section>
