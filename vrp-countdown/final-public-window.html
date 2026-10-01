@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>VRP — Final Public Evaluation Window</title>
+
+<meta
+name="description"
+content="VRP (Veil Routing Protocol) — Continuity First. Public Architecture. Protected Runtime.">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+background:
+radial-gradient(circle at top,#161616,#080808 55%,#030303);
+
+font-family:
+Inter,
+Segoe UI,
+Arial,
+sans-serif;
+
+color:#f0f0f0;
+
+overflow-x:hidden;
+
+}
+
+a{
+
+color:#58d7ff;
+text-decoration:none;
+
+}
+
+.wrap{
+
+width:min(1450px,95%);
+margin:auto;
+
+}
+
+.hero{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.hero::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+
+radial-gradient(circle at center,
+rgba(0,180,255,.10),
+transparent 40%),
+
+radial-gradient(circle at 80% 30%,
+rgba(0,255,120,.08),
+transparent 30%),
+
+radial-gradient(circle at 20% 80%,
+rgba(255,70,70,.08),
+transparent 30%);
+
+animation:pulse 8s linear infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.05);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+.hero-inner{
+
+position:relative;
+
+z-index:10;
+
+text-align:center;
+
+padding:80px 20px;
+
+}
+
+.version{
+
+display:inline-block;
+
+padding:8px 18px;
+
+border:1px solid #2b4b61;
+
+border-radius:999px;
+
+background:#0d1318;
+
+color:#6fdfff;
+
+letter-spacing:3px;
+
+font-size:13px;
+
+text-transform:uppercase;
+
+}
+
+h1{
+
+margin-top:30px;
+
+font-size:clamp(60px,8vw,120px);
+
+font-weight:900;
+
+letter-spacing:2px;
+
+}
+
+h1 span{
+
+color:#44dcff;
+
+}
+
+.subtitle{
+
+margin:40px auto;
+
+max-width:900px;
+
+font-size:20px;
+
+line-height:1.9;
+
+color:#d3d3d3;
+
+}
+
+.statement{
+
+margin-top:40px;
+
+font-size:34px;
+
+font-weight:800;
+
+letter-spacing:3px;
+
+}
+
+.statement strong{
+
+color:#42ff9a;
+
+}
+
+.deadline{
+
+margin-top:60px;
+
+display:inline-block;
+
+padding:26px 36px;
+
+border:1px solid #3a4148;
+
+background:#0a0d10;
+
+}
+
+.deadline-title{
+
+color:#ff5555;
+
+font-size:15px;
+
+letter-spacing:4px;
+
+text-transform:uppercase;
+
+margin-bottom:20px;
+
+line-height:1.8;
+
+}
+
+.timer{
+
+display:grid;
+
+grid-template-columns:repeat(4,160px);
+
+gap:18px;
+
+justify-content:center;
+
+}
+
+.timebox{
+
+background:#050608;
+
+border:1px solid #2b323a;
+
+padding:22px;
+
+}
+
+.timebox strong{
+
+display:block;
+
+font-size:58px;
+
+font-family:Consolas,monospace;
+
+color:#46dcff;
+
+}
+
+.timebox span{
+
+display:block;
+
+margin-top:8px;
+
+font-size:12px;
+
+letter-spacing:3px;
+
+color:#88929d;
+
+}
+
+.status-grid{
+
+margin-top:70px;
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:22px;
+
+}
+
+.card{
+
+background:#0b0d10;
+
+border:1px solid #2d343c;
+
+padding:24px;
+
+}
+
+.card-title{
+
+font-size:13px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+color:#8b97a4;
+
+margin-bottom:16px;
+
+}
+
+.card-value{
+
+font-size:24px;
+
+font-weight:700;
+
+}
+
+.ok{
+
+color:#42ff9a;
+
+}
+
+.warn{
+
+color:#ffd36c;
+
+}
+
+.private{
+
+color:#ff6262;
+
+}
+
+.card p{
+
+margin-top:18px;
+
+line-height:1.8;
+
+color:#cfcfcf;
+
+}
+
+.hero-buttons{
+
+margin-top:60px;
+
+display:flex;
+
+justify-content:center;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:18px 34px;
+
+background:#111419;
+
+border:1px solid #2f3d49;
+
+color:#ffffff;
+
+font-weight:700;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.btn:hover{
+
+transform:translateY(-3px);
+
+border-color:#45dbff;
+
+box-shadow:0 0 24px rgba(69,219,255,.35);
+
+}
+
+.btn.primary{
+
+background:#45dbff;
+
+border:none;
+
+color:#061017;
+
+}
+
+.btn.primary:hover{
+
+background:#66e3ff;
+
+}
+
+.live-banner{
+
+margin-top:70px;
+
+padding:20px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:18px;
+
+border:1px solid #32414c;
+
+background:#0d1116;
+
+font-family:Consolas,monospace;
+
+font-size:14px;
+
+letter-spacing:1px;
+
+}
+
+.live-dot{
+
+width:12px;
+
+height:12px;
+
+border-radius:50%;
+
+background:#43ff93;
+
+box-shadow:
+0 0 14px #43ff93,
+0 0 28px #43ff93;
+
+animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+0%{opacity:1;}
+
+50%{opacity:.25;}
+
+100%{opacity:1;}
+
+}
+
+.matrix{
+
+position:absolute;
+
+inset:0;
+
+pointer-events:none;
+
+opacity:.05;
+
+background-image:
+
+linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+
+linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+
+background-size:44px 44px;
+
+animation:gridmove 22s linear infinite;
+
+}
+
+@keyframes gridmove{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+100%{
+
+transform:translateY(44px);
+
+}
+
+}
+
+@media(max-width:980px){
+
+.status-grid{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.timer{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+}
+
+@media(max-width:680px){
+
+.status-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.timer{
+
+grid-template-columns:1fr;
+
+}
+
+h1{
+
+font-size:46px;
+
+}
+
+.subtitle{
+
+font-size:17px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="matrix"></div>
+
+<div class="wrap">
+
+<section class="hero">
+
+<div class="hero-inner">
+
+<div class="version">
+
+PUBLIC ENGINEERING DEMONSTRATION
+
+</div>
+
+<h1>
+
+VRP
+
+<br>
+
+<span>VEIL ROUTING PROTOCOL</span>
+
+</h1>
+
+<p class="subtitle">
+
+A continuity-first networking architecture.
+
+Public architecture is available.
+
+Protected Runtime remains private.
+
+Engineering evidence is public.
+
+Implementation remains protected.
+
+</p>
+
+<div class="statement">
+
+SESSION ≠ TRANSPORT
+
+<br><br>
+
+<strong>
+
+CONTINUITY FIRST
+
+</strong>
+
+</div>
+
+<div class="deadline">
+
+<div class="deadline-title">
+
+FINAL PUBLIC EVALUATION WINDOW
+
+<br><br>
+
+31 DECEMBER 2026
+
+23:59:59 UTC
+
+</div>
+
+<div class="timer">
+
+<div class="timebox">
+
+<strong id="days">000</strong>
+
+<span>DAYS</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="hours">00</strong>
+
+<span>HOURS</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="minutes">00</strong>
+
+<span>MINUTES</span>
+
+</div>
+
+<div class="timebox">
+
+<strong id="seconds">00</strong>
+
+<span>SECONDS</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="status-grid">
+
+<div class="card">
+
+<div class="card-title">
+
+Protocol Status
+
+</div>
+
+<div class="card-value ok">
+
+ACTIVE DEVELOPMENT
+
+</div>
+
+<p>
+
+Development continues.
+
+Validation continues.
+
+Runtime hardening continues.
+
+Protocol evolution continues.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Protected Runtime
+
+</div>
+
+<div class="card-value private">
+
+PRIVATE
+
+</div>
+
+<p>
+
+Observable behaviour is public.
+
+Protected implementation remains private.
+
+Protected engineering is not part of the public demonstration.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Engineering Validation
+
+</div>
+
+<div class="card-value ok">
+
+CONTINUOUS
+
+</div>
+
+<p>
+
+Replay testing
+
+Recovery validation
+
+Long-duration runtime
+
+Evidence verification
+
+Deterministic execution
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Public Resources
+
+</div>
+
+<div class="card-value warn">
+
+AVAILABLE
+
+</div>
+
+<p>
+
+VRP Specification
+
+Runtime Boundary Preview
+
+Public Runtime Demo
+
+Validation Kit
+
+</p>
+
+</div>
+
+</div>
+
+<div class="hero-buttons">
+
+<a
+class="btn primary"
+href="https://github.com/Endless33/VRP-specification"
+target="_blank">
+
+VIEW SPECIFICATION
+
+</a>
+
+<a
+class="btn"
+href="https://github.com/Endless33/vrp-runtime-boundary-preview"
+target="_blank">
+
+RUNTIME BOUNDARY
+
+</a>
+
+<a
+class="btn"
+href="https://github.com/Endless33/vrp-validation-kit"
+target="_blank">
+
+VALIDATION KIT
+
+</a>
+
+</div>
+
+<div class="live-banner">
+
+<div class="live-dot"></div>
+
+<div>
+
+STATUS:
+ENGINEERING ACTIVE
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+PROTECTED RUNTIME:
+PRIVATE
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+PUBLIC EVALUATION WINDOW:
+OPEN
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>
+
+Final Public Evaluation Window
+
+</h2>
+
+<p>
+
+This countdown represents the remaining time for the current public evaluation window.
+
+It is not a countdown for protocol development.
+
+VRP development continues regardless of evaluation availability.
+
+Validation continues.
+
+Testing continues.
+
+Engineering continues.
+
+Availability may change after the deadline.
+
+</p>
+
+</section>
+
+<section>
+
+<h2>
+
+Architecture Principles
+
+</h2>
+
+<p>
+
+VRP separates logical session identity from transport.
+
+Transport is considered replaceable.
+
+Session identity remains canonical.
+
+Recovery is validated through observable behaviour and engineering evidence.
+
+Public demonstrations focus on externally verifiable properties without disclosing Protected Runtime implementation.
+
+</p>
+
+</section>
+
+<section>
+
+<h2>
+
+Current Public Status
+
+</h2>
+
+<div class="status-grid">
+
+<div class="card">
+
+<div class="card-title">
+
+Protocol
+
+</div>
+
+<div class="card-value ok">
+
+ACTIVE
+
+</div>
+
+<p>
+
+Engineering work continues.
+
+Protocol evolution continues.
+
+Validation continues.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Evidence
+
+</div>
+
+<div class="card-value ok">
+
+PUBLIC
+
+</div>
+
+<p>
+
+Observable behaviour
+
+Validation reports
+
+Reproducible demonstrations
+
+Engineering evidence
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Implementation
+
+</div>
+
+<div class="card-value private">
+
+PROTECTED
+
+</div>
+
+<p>
+
+Protected Runtime
+
+Protected algorithms
+
+Protected implementation
+
+Protected engineering
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+
+Evaluation
+
+</div>
+
+<div class="card-value warn">
+
+LIMITED
+
+</div>
+
+<p>
+
+Availability depends on the current public evaluation window.
+
+Future participation policies may change.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>
+
+Engineering Philosophy
+
+</h2>
+
+<p>
+
+The objective is not to demonstrate source code.
+
+The objective is to demonstrate observable engineering behaviour.
+
+Validation should be reproducible.
+
+Claims should be supported by evidence.
+
+Protected implementation remains protected.
+
+</p>
+
+</section>
+
+<footer style="margin:80px 0 40px;text-align:center;color:#8d98a3;line-height:1.8;">
+
+VRP — Veil Routing Protocol
+
+<br><br>
+
+SESSION ≠ TRANSPORT
+
+<br>
+
+CONTINUITY FIRST
+
+<br><br>
+
+Public Architecture
+
+<br>
+
+Protected Runtime
+
+</footer>
+
+<script>
+
+const deadline =
+new Date("2026-12-31T23:59:59Z").getTime();
+
+function updateCountdown(){
+
+const now=Date.now();
+
+const diff=Math.max(0,deadline-now);
+
+const days=Math.floor(diff/(1000*60*60*24));
+
+const hours=Math.floor((diff/(1000*60*60))%24);
+
+const minutes=Math.floor((diff/(1000*60))%60);
+
+const seconds=Math.floor((diff/1000)%60);
+
+document.getElementById("days").textContent=
+String(days).padStart(3,"0");
+
+document.getElementById("hours").textContent=
+String(hours).padStart(2,"0");
+
+document.getElementById("minutes").textContent=
+String(minutes).padStart(2,"0");
+
+document.getElementById("seconds").textContent=
+String(seconds).padStart(2,"0");
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+</script>
+
+</body>
+
+</html>
