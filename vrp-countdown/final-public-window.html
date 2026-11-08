@@ -5,10 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#05080d">
-
+<meta name="description" content="Veil Routing Protocol. Enterprise pilot access from €25,000 through March 31, 2027. Continuity-first networking, public validation and scheduled pricing milestones.">
 <title>VRP — Enterprise Pilot Access & 2027 Pricing</title>
-
-<meta name="description" content="Veil Routing Protocol. Current enterprise pilot access €25,000 through March 31, 2027. Quarterly pricing milestones, continuity architecture and public engineering validation.">
 
 <style>
 :root {
@@ -39,11 +37,7 @@ body {
   line-height:1.65;
 }
 
-a {
-  color:var(--cyan);
-  text-decoration:none;
-}
-
+a { color:var(--cyan); text-decoration:none; }
 a:hover { text-decoration:underline; }
 
 .container {
@@ -174,7 +168,6 @@ h2 {
 }
 
 h3 { margin:0 0 12px; }
-
 .muted { color:var(--muted); }
 
 .countdown-panel {
@@ -184,6 +177,51 @@ h3 { margin:0 0 12px; }
   border:1px solid #35617a;
   background:linear-gradient(145deg,#102031,#070d15);
   box-shadow:0 0 75px rgba(72,217,255,.09);
+}
+
+.sound-toggle {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  min-height:45px;
+  padding:12px 22px;
+  margin-bottom:25px;
+  border:1px solid #326078;
+  background:#071723;
+  color:var(--cyan);
+  font:900 11px Inter,"Segoe UI",Arial,sans-serif;
+  letter-spacing:2px;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,box-shadow .2s;
+}
+
+.sound-toggle:hover {
+  border-color:var(--cyan);
+  box-shadow:0 0 25px rgba(72,217,255,.2);
+}
+
+.sound-toggle.active {
+  color:var(--green);
+  border-color:var(--green);
+  box-shadow:0 0 20px rgba(77,255,165,.12);
+}
+
+.sound-indicator {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 12px currentColor;
+}
+
+.water-clock-caption {
+  margin:0 0 28px;
+  color:#8caac0;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
 }
 
 .live-label {
@@ -204,9 +242,7 @@ h3 { margin:0 0 12px; }
   box-shadow:0 0 14px var(--green);
 }
 
-.current-offer {
-  padding:25px 10px;
-}
+.current-offer { padding:25px 10px; }
 
 .current-offer .small {
   color:var(--muted);
@@ -444,9 +480,7 @@ h3 { margin:0 0 12px; }
   font-weight:950;
 }
 
-.quarter.active .quarter-price {
-  color:var(--green);
-}
+.quarter.active .quarter-price { color:var(--green); }
 
 .quarter-dates {
   color:var(--muted);
@@ -461,9 +495,7 @@ h3 { margin:0 0 12px; }
   letter-spacing:1px;
 }
 
-.quarter.active .quarter-state {
-  color:var(--green);
-}
+.quarter.active .quarter-state { color:var(--green); }
 
 .pricing-timeline {
   display:grid;
@@ -630,27 +662,17 @@ footer p {
 }
 
 @media(max-width:950px) {
-  .quarter-grid {
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .grid {
-    grid-template-columns:repeat(2,1fr);
-  }
-
+  .quarter-grid,
+  .grid,
   .pricing-timeline {
     grid-template-columns:repeat(2,1fr);
   }
 
-  .diagram {
-    grid-template-columns:1fr;
-  }
+  .diagram { grid-template-columns:1fr; }
 }
 
 @media(max-width:650px) {
-  header {
-    position:relative;
-  }
+  header { position:relative; }
 
   nav {
     min-height:60px;
@@ -658,9 +680,7 @@ footer p {
     gap:12px;
   }
 
-  .logo {
-    font-size:20px;
-  }
+  .logo { font-size:20px; }
 
   .nav-links {
     flex:1;
@@ -670,54 +690,35 @@ footer p {
     justify-content:flex-start;
   }
 
-  .nav-links::-webkit-scrollbar {
-    display:none;
-  }
+  .nav-links::-webkit-scrollbar { display:none; }
+  .nav-links a { font-size:10px; }
 
-  .nav-links a {
-    font-size:10px;
-  }
+  .hero { padding:65px 0; }
 
-  .hero {
-    padding:65px 0;
-  }
-
-  .countdown-panel {
-    padding:19px 14px;
-  }
+  .countdown-panel { padding:19px 14px; }
 
   .timer {
     grid-template-columns:repeat(2,1fr);
     gap:9px;
   }
 
-  .timebox {
-    padding:18px 7px;
-  }
+  .timebox { padding:18px 7px; }
 
   .grid,
-  .quarter-grid {
-    grid-template-columns:1fr;
-  }
+  .quarter-grid { grid-template-columns:1fr; }
 
-  .quarter {
-    padding:23px 16px;
-  }
+  .quarter { padding:23px 16px; }
+  .quarter-price { font-size:37px; }
 
-  .quarter-price {
-    font-size:37px;
-  }
+  .pricing-timeline { grid-template-columns:repeat(2,1fr); }
 
-  .pricing-timeline {
-    grid-template-columns:repeat(2,1fr);
-  }
+  .current-window { padding:22px; }
 
-  .current-window {
-    padding:22px;
-  }
+  .scenario-btn { flex:1 1 135px; }
 
-  .scenario-btn {
-    flex:1 1 135px;
+  .sound-toggle {
+    width:100%;
+    letter-spacing:1px;
   }
 }
 
@@ -737,39 +738,25 @@ footer p {
 <!--
 FILE: final-public-window.html
 
-CORRECTED VRP COMMERCIAL SCHEDULE
+VRP ENTERPRISE PRICING
+Current: EUR 25,000 until March 31, 2027.
+Q2 2027: EUR 50,000.
+Q3 2027: EUR 75,000.
+Q4 2027: EUR 100,000.
 
-CURRENT OFFER:
-EUR 25,000
-Available now through March 31, 2027 inclusive.
+All milestones use UTC.
 
-NEXT PRICE:
-April 1, 2027 -> EUR 50,000
+WATER CLOCK:
+Optional user-activated synthesized audio.
+No audio files, tracking or external services.
 
-Q3 2027:
-July 1, 2027 -> EUR 75,000
-
-Q4 2027:
-October 1, 2027 -> EUR 100,000
-
-ALL MILESTONES USE UTC.
-
-The countdown shows time remaining until
-the NEXT quarterly pricing milestone.
-
-The schedule reflects the published intended
-commercial offering, subject to agreement.
-
-No protected VRP runtime source is disclosed.
+PROTECTED CORE DISCLOSURE: NONE.
 -->
 
 <header>
   <div class="container">
     <nav>
-
-      <a class="logo" href="#top">
-        VRP<span>.</span>
-      </a>
+      <a class="logo" href="#top">VRP<span>.</span></a>
 
       <div class="nav-links">
         <a href="#architecture">Architecture</a>
@@ -778,7 +765,6 @@ No protected VRP runtime source is disclosed.
         <a href="#validation">Validation</a>
         <a href="#resources">Resources</a>
       </div>
-
     </nav>
   </div>
 </header>
@@ -825,13 +811,25 @@ No protected VRP runtime source is disclosed.
 
     <div class="countdown-panel" id="countdown">
 
+      <button
+        type="button"
+        id="sound-toggle"
+        class="sound-toggle"
+        aria-pressed="false">
+        <span class="sound-indicator" aria-hidden="true"></span>
+        <span id="sound-label">ENABLE WATER CLOCK</span>
+      </button>
+
+      <p class="water-clock-caption">
+        EVERY SECOND PASSES. THE PRICE DOES NOT WAIT.
+      </p>
+
       <div class="live-label">
         <span class="live-dot"></span>
         <span id="offer-status">CURRENT PILOT OFFER</span>
       </div>
 
       <div class="current-offer">
-
         <div class="small">
           CURRENT LIMITED-SCOPE PILOT PRICE
         </div>
@@ -843,7 +841,6 @@ No protected VRP runtime source is disclosed.
         <div class="offer-until" id="current-period">
           AVAILABLE NOW — 31 MARCH 2027
         </div>
-
       </div>
 
       <div class="countdown-divider"></div>
@@ -860,7 +857,10 @@ No protected VRP runtime source is disclosed.
         01 APRIL 2027 · 00:00 UTC
       </div>
 
-      <div class="timer" role="timer" aria-label="Time until the next commercial pricing milestone">
+      <div
+        class="timer"
+        role="timer"
+        aria-label="Time until the next pricing milestone">
 
         <div class="timebox">
           <strong id="days">000</strong>
@@ -881,11 +881,9 @@ No protected VRP runtime source is disclosed.
           <strong id="seconds">00</strong>
           <span>SECONDS</span>
         </div>
-
       </div>
 
       <div class="next-price-box">
-
         <div class="next-price-label">
           NEXT QUARTERLY PILOT PRICE
         </div>
@@ -897,19 +895,18 @@ No protected VRP runtime source is disclosed.
         <p class="next-price-note" id="next-price-note">
           Effective April 1, 2027, 00:00 UTC.
         </p>
-
       </div>
 
       <p class="muted" style="font-size:12px;margin-top:23px">
         Countdown calculated in UTC.
-        The displayed schedule does not create a
-        binding quotation or guarantee pilot admission.
+        Audio is optional and starts only after user interaction.
+        The published schedule does not create a binding
+        quotation or guarantee pilot admission.
       </p>
 
     </div>
 
     <div class="buttons">
-
       <a class="btn primary" href="#pricing">
         VIEW PRICE TIMELINE
       </a>
@@ -918,13 +915,13 @@ No protected VRP runtime source is disclosed.
         EXPLORE NETWORK IMPACT
       </a>
 
-      <a class="btn"
-         href="https://github.com/Endless33/vrp-validation-kit"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a
+        class="btn"
+        href="https://github.com/Endless33/vrp-validation-kit"
+        target="_blank"
+        rel="noopener noreferrer">
         PUBLIC VALIDATION KIT
       </a>
-
     </div>
 
   </div>
@@ -959,9 +956,7 @@ No protected VRP runtime source is disclosed.
     <div class="diagram">
 
       <div class="diagram-panel">
-
         <h3>Transport-Coupled Architecture</h3>
-
         <div class="flowbox">CLIENT</div>
         <div class="arrow">↓</div>
         <div class="flowbox">TRANSPORT</div>
@@ -971,13 +966,10 @@ No protected VRP runtime source is disclosed.
         <div class="flowbox bad">
           SESSION MAY REQUIRE RECONNECTION
         </div>
-
       </div>
 
       <div class="diagram-panel">
-
         <h3>VRP Continuity Architecture</h3>
-
         <div class="flowbox">CLIENT</div>
         <div class="arrow">↓</div>
         <div class="flowbox good">CANONICAL SESSION</div>
@@ -989,7 +981,6 @@ No protected VRP runtime source is disclosed.
         <div class="flowbox good">
           SESSION IDENTITY PRESERVED
         </div>
-
       </div>
 
     </div>
@@ -1081,109 +1072,48 @@ No protected VRP runtime source is disclosed.
     </p>
 
     <div class="current-window">
-
       <div>
         <h3>Current Pilot Access Window</h3>
-
-        <p>
-          AVAILABLE NOW THROUGH MARCH 31, 2027
-        </p>
-
-        <p>
-          Next increase: April 1, 2027 · 00:00 UTC
-        </p>
+        <p>AVAILABLE NOW THROUGH MARCH 31, 2027</p>
+        <p>Next increase: April 1, 2027 · 00:00 UTC</p>
       </div>
 
       <strong>€25,000</strong>
-
     </div>
 
     <div class="quarter-grid">
 
       <div class="quarter" data-quarter="2027-Q1">
-
-        <div class="quarter-name">
-          Q1 2027
-        </div>
-
-        <div class="quarter-price">
-          €25,000
-        </div>
-
-        <div class="quarter-dates">
-          JAN 01 — MAR 31
-        </div>
-
-        <div class="quarter-state">
-          CURRENT OFFER CONTINUES
-        </div>
-
+        <div class="quarter-name">Q1 2027</div>
+        <div class="quarter-price">€25,000</div>
+        <div class="quarter-dates">JAN 01 — MAR 31</div>
+        <div class="quarter-state">CURRENT OFFER CONTINUES</div>
       </div>
 
       <div class="quarter" data-quarter="2027-Q2">
-
-        <div class="quarter-name">
-          Q2 2027
-        </div>
-
-        <div class="quarter-price">
-          €50,000
-        </div>
-
-        <div class="quarter-dates">
-          APR 01 — JUN 30
-        </div>
-
-        <div class="quarter-state">
-          +€25,000
-        </div>
-
+        <div class="quarter-name">Q2 2027</div>
+        <div class="quarter-price">€50,000</div>
+        <div class="quarter-dates">APR 01 — JUN 30</div>
+        <div class="quarter-state">+€25,000</div>
       </div>
 
       <div class="quarter" data-quarter="2027-Q3">
-
-        <div class="quarter-name">
-          Q3 2027
-        </div>
-
-        <div class="quarter-price">
-          €75,000
-        </div>
-
-        <div class="quarter-dates">
-          JUL 01 — SEP 30
-        </div>
-
-        <div class="quarter-state">
-          +€25,000
-        </div>
-
+        <div class="quarter-name">Q3 2027</div>
+        <div class="quarter-price">€75,000</div>
+        <div class="quarter-dates">JUL 01 — SEP 30</div>
+        <div class="quarter-state">+€25,000</div>
       </div>
 
       <div class="quarter" data-quarter="2027-Q4">
-
-        <div class="quarter-name">
-          Q4 2027
-        </div>
-
-        <div class="quarter-price">
-          €100,000
-        </div>
-
-        <div class="quarter-dates">
-          OCT 01 — DEC 31
-        </div>
-
-        <div class="quarter-state">
-          +€25,000
-        </div>
-
+        <div class="quarter-name">Q4 2027</div>
+        <div class="quarter-price">€100,000</div>
+        <div class="quarter-dates">OCT 01 — DEC 31</div>
+        <div class="quarter-state">+€25,000</div>
       </div>
 
     </div>
 
     <div class="pricing-timeline">
-
       <div class="timeline-step">
         01 JAN — 31 MAR
         <strong>€25,000</strong>
@@ -1207,11 +1137,9 @@ No protected VRP runtime source is disclosed.
         <strong>€100,000</strong>
         Q4 2027
       </div>
-
     </div>
 
     <div class="note">
-
       <strong>COMMERCIAL SCHEDULE:</strong>
 
       The €25,000 limited-scope pilot price is the
@@ -1226,7 +1154,6 @@ No protected VRP runtime source is disclosed.
 
       Scope, duration, availability, payment and
       access rights require a separate agreement.
-
     </div>
 
     <div class="grid">
@@ -1270,9 +1197,7 @@ No protected VRP runtime source is disclosed.
       03 / ENTERPRISE ENGAGEMENT
     </div>
 
-    <h2>
-      Evaluation before deployment.
-    </h2>
+    <h2>Evaluation before deployment.</h2>
 
     <p class="muted">
       The limited-scope pilot is designed for
@@ -1284,7 +1209,6 @@ No protected VRP runtime source is disclosed.
 
     <div class="table-wrap">
       <table>
-
         <thead>
           <tr>
             <th>Commercial Window</th>
@@ -1292,33 +1216,28 @@ No protected VRP runtime source is disclosed.
             <th>Pilot Entry Price</th>
           </tr>
         </thead>
-
         <tbody>
           <tr>
             <td>Current Offer / Q1 2027</td>
             <td>Now — March 31, 2027</td>
             <td>€25,000</td>
           </tr>
-
           <tr>
             <td>Q2 2027</td>
             <td>April 1 — June 30</td>
             <td>€50,000</td>
           </tr>
-
           <tr>
             <td>Q3 2027</td>
             <td>July 1 — September 30</td>
             <td>€75,000</td>
           </tr>
-
           <tr>
             <td>Q4 2027</td>
             <td>October 1 — December 31</td>
             <td>€100,000</td>
           </tr>
         </tbody>
-
       </table>
     </div>
 
@@ -1334,52 +1253,42 @@ No protected VRP runtime source is disclosed.
 
     <div class="table-wrap">
       <table>
-
         <thead>
           <tr>
             <th>Offering</th>
             <th>Indicative Commercial Price</th>
           </tr>
         </thead>
-
         <tbody>
           <tr>
             <td>Enterprise Pilot — 30 Days</td>
             <td>€100,000</td>
           </tr>
-
           <tr>
             <td>Strategic Pilot — 60 Days</td>
             <td>€250,000</td>
           </tr>
-
           <tr>
             <td>R&amp;D License — Annual</td>
             <td>€150,000</td>
           </tr>
-
           <tr>
             <td>Business Runtime License — Annual</td>
             <td>€500,000</td>
           </tr>
-
           <tr>
             <td>Enterprise Runtime License — Annual</td>
             <td>€1,500,000</td>
           </tr>
-
           <tr>
             <td>Strategic Enterprise License — Annual</td>
             <td>From €3,000,000</td>
           </tr>
-
           <tr>
             <td>Strategic Exclusive Commercial Rights</td>
             <td>From €5,000,000</td>
           </tr>
-
         </tbody>
-
       </table>
     </div>
 
@@ -1389,46 +1298,38 @@ No protected VRP runtime source is disclosed.
 
     <div class="table-wrap">
       <table>
-
         <thead>
           <tr>
             <th>Service</th>
             <th>Indicative Price</th>
           </tr>
         </thead>
-
         <tbody>
           <tr>
             <td>Integration Assessment</td>
             <td>From €50,000</td>
           </tr>
-
           <tr>
             <td>Custom Integration</td>
             <td>From €150,000</td>
           </tr>
-
           <tr>
             <td>Extended Validation</td>
             <td>From €100,000</td>
           </tr>
-
           <tr>
             <td>Evidence &amp; Audit Services</td>
             <td>From €75,000</td>
           </tr>
-
           <tr>
             <td>Dedicated Engineering Support / Year</td>
             <td>From €250,000</td>
           </tr>
         </tbody>
-
       </table>
     </div>
 
     <div class="note">
-
       <strong>LICENSING BOUNDARY:</strong>
 
       All broader enterprise catalogue prices are
@@ -1440,7 +1341,6 @@ No protected VRP runtime source is disclosed.
       certification is implied by the pricing.
 
       Applicable taxes may be additional.
-
     </div>
 
   </div>
@@ -1453,9 +1353,7 @@ No protected VRP runtime source is disclosed.
       04 / PUBLIC VALIDATION
     </div>
 
-    <h2>
-      Engineering claims require evidence.
-    </h2>
+    <h2>Engineering claims require evidence.</h2>
 
     <p class="muted">
       VRP is developed around explicit continuity
@@ -1465,42 +1363,46 @@ No protected VRP runtime source is disclosed.
     </p>
 
     <div class="scenario-controls">
-
-      <button type="button"
-              class="scenario-btn active"
-              data-scenario="failure">
+      <button
+        type="button"
+        class="scenario-btn active"
+        data-scenario="failure">
         NETWORK FAILURE
       </button>
 
-      <button type="button"
-              class="scenario-btn"
-              data-scenario="migration">
+      <button
+        type="button"
+        class="scenario-btn"
+        data-scenario="migration">
         PATH MIGRATION
       </button>
 
-      <button type="button"
-              class="scenario-btn"
-              data-scenario="replay">
+      <button
+        type="button"
+        class="scenario-btn"
+        data-scenario="replay">
         REPLAY ATTEMPT
       </button>
 
-      <button type="button"
-              class="scenario-btn"
-              data-scenario="blackout">
+      <button
+        type="button"
+        class="scenario-btn"
+        data-scenario="blackout">
         BLACKOUT RECOVERY
       </button>
 
-      <button type="button"
-              class="scenario-btn"
-              data-scenario="authority">
+      <button
+        type="button"
+        class="scenario-btn"
+        data-scenario="authority">
         AUTHORITY CONFLICT
       </button>
-
     </div>
 
     <div class="terminal">
-
-      <div class="section-label" style="margin-bottom:18px">
+      <div
+        class="section-label"
+        style="margin-bottom:18px">
         CONCEPTUAL MODEL · NOT LIVE TELEMETRY
       </div>
 
@@ -1511,19 +1413,18 @@ RECOVERY...............REQUESTED
 SESSION................PRESERVED
 CANONICAL..............CONSISTENT
 EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
-
     </div>
 
-    <p class="muted"
-       id="scenario-description"
-       style="margin-top:20px">
+    <p
+      class="muted"
+      id="scenario-description"
+      style="margin-top:20px">
       Transport failure is modeled as a recovery
       event rather than automatic logical session
       termination.
     </p>
 
     <div class="note">
-
       <strong>EVIDENCE BOUNDARY:</strong>
 
       These outputs illustrate expected architectural
@@ -1532,23 +1433,22 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
       Real validation requires a known runtime version,
       reproducible execution, recorded evidence,
       acceptance criteria and reviewable verdicts.
-
     </div>
 
     <div class="buttons">
-
-      <a class="btn primary"
-         href="network-impact-demo.html">
+      <a
+        class="btn primary"
+        href="network-impact-demo.html">
         OPEN INTERACTIVE NETWORK LAB
       </a>
 
-      <a class="btn"
-         href="https://github.com/Endless33/vrp-validation-kit"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a
+        class="btn"
+        href="https://github.com/Endless33/vrp-validation-kit"
+        target="_blank"
+        rel="noopener noreferrer">
         EXTERNAL VALIDATION KIT
       </a>
-
     </div>
 
   </div>
@@ -1561,9 +1461,7 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
       05 / CONTROLLED ENTERPRISE PROCESS
     </div>
 
-    <h2>
-      No deployment by assumption.
-    </h2>
+    <h2>No deployment by assumption.</h2>
 
     <div class="grid">
 
@@ -1649,9 +1547,10 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
           pricing milestones and public presentation.
         </p>
         <p>
-          <a href="https://github.com/Endless33/vrp-countdown"
-             target="_blank"
-             rel="noopener noreferrer">
+          <a
+            href="https://github.com/Endless33/vrp-countdown"
+            target="_blank"
+            rel="noopener noreferrer">
             Open Repository
           </a>
         </p>
@@ -1665,9 +1564,10 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
           bounded evidence and verification resources.
         </p>
         <p>
-          <a href="https://github.com/Endless33/vrp-validation-kit"
-             target="_blank"
-             rel="noopener noreferrer">
+          <a
+            href="https://github.com/Endless33/vrp-validation-kit"
+            target="_blank"
+            rel="noopener noreferrer">
             Open Validation Kit
           </a>
         </p>
@@ -1681,9 +1581,10 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
           design information.
         </p>
         <p>
-          <a href="https://github.com/Endless33/VRP-specification"
-             target="_blank"
-             rel="noopener noreferrer">
+          <a
+            href="https://github.com/Endless33/VRP-specification"
+            target="_blank"
+            rel="noopener noreferrer">
             Open Specification
           </a>
         </p>
@@ -1698,16 +1599,15 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
   <div class="container">
 
     <div class="cta">
-
       <div class="section-label">
         CURRENT ENTERPRISE PILOT WINDOW
       </div>
 
-      <h2>
-        €25,000 until March 31, 2027.
-      </h2>
+      <h2>€25,000 until March 31, 2027.</h2>
 
-      <p class="muted" style="max-width:720px;margin:20px auto">
+      <p
+        class="muted"
+        style="max-width:720px;margin:20px auto">
         From April 1, 2027, the scheduled
         limited-scope pilot entry price becomes €50,000.
         Further quarterly milestones follow in July
@@ -1721,18 +1621,23 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
       </p>
 
       <div class="buttons">
-
         <a class="btn primary" href="#countdown">
           VIEW LIVE COUNTDOWN
         </a>
 
-        <a class="btn"
-           href="https://github.com/Endless33/vrp-countdown"
-           target="_blank"
-           rel="noopener noreferrer">
-          PROJECT REPOSITORY
+        <a
+          class="btn"
+          href="mailto:jumpingvpn@proton.me?subject=VRP%20Enterprise%20Pilot%20Inquiry">
+          CONTACT FOR PILOT ACCESS
         </a>
 
+        <a
+          class="btn"
+          href="https://github.com/Endless33/vrp-countdown"
+          target="_blank"
+          rel="noopener noreferrer">
+          PROJECT REPOSITORY
+        </a>
       </div>
 
       <div class="slogan">
@@ -1740,7 +1645,6 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
         <br>
         <span>CONTINUITY FIRST.</span>
       </div>
-
     </div>
 
   </div>
@@ -1768,6 +1672,12 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
     </p>
 
     <p>
+      <a href="mailto:jumpingvpn@proton.me">
+        jumpingvpn@proton.me
+      </a>
+    </p>
+
+    <p>
       © <span id="copyright-year">2026</span> VRP.
       All rights reserved.
     </p>
@@ -1785,25 +1695,29 @@ EXPECTED VERDICT.......CONTINUITY PRESERVED</pre>
 "use strict";
 
 /*
-VRP CORRECTED PRICING ENGINE
+==================================================
+VRP — UTC PRICING ENGINE
+==================================================
 
-CURRENT OFFER:
-EUR 25,000 until 2027-04-01T00:00:00Z.
+CURRENT:
+EUR 25,000 through 2027-03-31.
 
 Q2:
-EUR 50,000 until 2027-07-01T00:00:00Z.
+EUR 50,000.
 
 Q3:
-EUR 75,000 until 2027-10-01T00:00:00Z.
+EUR 75,000.
 
 Q4:
-EUR 100,000 until 2028-01-01T00:00:00Z.
+EUR 100,000.
 
-The timer counts down to the NEXT milestone.
+2028 pricing is not announced.
 
-After Q4 2027, no 2028 price is invented.
+The countdown is based on UTC timestamps.
+The browser clock is not a trusted commercial
+pricing authority.
 
-All calculations use absolute UTC timestamps.
+PROTECTED CORE DISCLOSURE: NONE.
 */
 
 const pricingPhases = [
@@ -2010,11 +1924,12 @@ function updateCountdown() {
 }
 
 /*
-PUBLIC CONCEPTUAL VALIDATION VIEW
+==================================================
+PUBLIC CONCEPTUAL VALIDATION
+==================================================
 
-Not a live runtime.
-Not an independently executed test.
-No private VRP internals exposed.
+These are illustrative scenarios, not live
+protected runtime telemetry.
 */
 
 const scenarios = {
@@ -2115,11 +2030,177 @@ document.querySelectorAll("[data-scenario]").forEach(button => {
 });
 
 /*
-PRICING SELF-CHECK
+==================================================
+VRP WATER CLOCK — AUDIO ENGINE
+==================================================
 
-Checks the intended boundary dates and amounts.
-This validates JavaScript configuration only,
-not commercial or contractual enforceability.
+DESIGN:
+- One synthesized water drop per observed second.
+- No MP3, WAV, remote audio or external library.
+- Explicit user interaction required.
+- Audio disabled by default.
+- No catch-up bursts after browser suspension.
+- No sound after the published schedule expires.
+- Audio resources released after each drop.
+- Protected Core disclosure: NONE.
+
+The sound is atmospheric, not a timing authority.
+*/
+
+let audioContext = null;
+let soundEnabled = false;
+let lastDropSecond = -1;
+
+const soundButton = byId("sound-toggle");
+const soundLabel = byId("sound-label");
+
+function setSoundUI(enabled) {
+  soundButton.classList.toggle("active",enabled);
+  soundButton.setAttribute("aria-pressed",String(enabled));
+
+  soundLabel.textContent =
+    enabled
+      ? "WATER CLOCK ACTIVE · MUTE"
+      : "ENABLE WATER CLOCK";
+}
+
+function isCountdownActive() {
+  return findPhase(Date.now()) !== null;
+}
+
+function playWaterDrop() {
+  if (!soundEnabled || !audioContext) return;
+
+  if (audioContext.state !== "running") return;
+
+  if (!isCountdownActive()) return;
+
+  const now = audioContext.currentTime;
+
+  const oscillator = audioContext.createOscillator();
+  const filter = audioContext.createBiquadFilter();
+  const gain = audioContext.createGain();
+
+  /*
+  Short downward frequency sweep:
+  a synthetic liquid-like plop.
+  */
+
+  oscillator.type = "sine";
+
+  oscillator.frequency.setValueAtTime(950,now);
+
+  oscillator.frequency.exponentialRampToValueAtTime(
+    520,
+    now + 0.055
+  );
+
+  oscillator.frequency.exponentialRampToValueAtTime(
+    360,
+    now + 0.17
+  );
+
+  filter.type = "lowpass";
+  filter.frequency.value = 1600;
+  filter.Q.value = 0.8;
+
+  gain.gain.setValueAtTime(0.0001,now);
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.075,
+    now + 0.009
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + 0.30
+  );
+
+  oscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.start(now);
+  oscillator.stop(now + 0.31);
+
+  oscillator.onended = () => {
+    oscillator.disconnect();
+    filter.disconnect();
+    gain.disconnect();
+  };
+}
+
+soundButton.addEventListener("click",async () => {
+  if (soundEnabled) {
+    soundEnabled = false;
+    setSoundUI(false);
+    return;
+  }
+
+  try {
+    const AudioContextClass =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+      throw new Error("Web Audio API unavailable");
+    }
+
+    if (!audioContext) {
+      audioContext = new AudioContextClass();
+    }
+
+    await audioContext.resume();
+
+    if (audioContext.state !== "running") {
+      throw new Error("Audio context not running");
+    }
+
+    soundEnabled = true;
+    setSoundUI(true);
+
+    lastDropSecond = Math.floor(Date.now() / 1000);
+
+    playWaterDrop();
+
+  } catch (error) {
+    soundEnabled = false;
+    setSoundUI(false);
+
+    console.warn(
+      "VRP_WATER_CLOCK=UNAVAILABLE"
+    );
+  }
+});
+
+function waterClockTick() {
+  if (!soundEnabled) return;
+
+  if (document.hidden) return;
+
+  if (!isCountdownActive()) return;
+
+  const second = Math.floor(Date.now() / 1000);
+
+  if (second !== lastDropSecond) {
+    lastDropSecond = second;
+    playWaterDrop();
+  }
+}
+
+document.addEventListener("visibilitychange",() => {
+  if (!document.hidden) {
+    lastDropSecond = Math.floor(Date.now() / 1000);
+  }
+});
+
+/*
+==================================================
+PRICING CONFIGURATION SELF-CHECK
+==================================================
+
+This checks JavaScript boundary configuration,
+not contractual or commercial enforceability.
 */
 
 function verifyPricingConfiguration() {
@@ -2138,10 +2219,13 @@ function verifyPricingConfiguration() {
 
   const passed = cases.every(([time,expected]) => {
     const phase = findPhase(time);
-    return phase !== null && phase.current === expected;
+
+    return phase !== null &&
+      phase.current === expected;
   });
 
-  const expired = findPhase(Date.UTC(2028,0,1)) === null;
+  const expired =
+    findPhase(Date.UTC(2028,0,1)) === null;
 
   console.info(
     "VRP_PRICING_BOUNDARY_CHECK=" +
@@ -2149,11 +2233,20 @@ function verifyPricingConfiguration() {
   );
 }
 
+/*
+==================================================
+INITIALIZATION
+==================================================
+*/
+
 verifyPricingConfiguration();
 setScenario("failure");
+setSoundUI(false);
 updateCountdown();
 
 setInterval(updateCountdown,1000);
+setInterval(waterClockTick,100);
+
 </script>
 
 </body>
